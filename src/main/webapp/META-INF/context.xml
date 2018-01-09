@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+    <Resource name="jdbc/exhibcalendar" auth="Container"
+              type="javax.sql.DataSource" maxActive="100"
+              minIdle="30" username="root"
+              password="rout" driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/exhibcalendar"/>
+</Context>
