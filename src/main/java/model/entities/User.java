@@ -5,31 +5,29 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    private Integer userId;
-
+    private int userId;
     private String firstname;
     private String password;
     private String lastname;
     private String login;
     private String email;
-    private String phone;
-
-    private String role;
+    private Integer phone;
+    private Integer balance;
+    private int role;
 
     public User() {
     }
 
-    public User(Integer userId, String firstname, String lastname,String login, String email,  String role,String phone) {
+    public User(Integer userId, String firstname, String password, String lastname, String login, String email, Integer phone, Integer balance, int role) {
         this.userId = userId;
         this.firstname = firstname;
+        this.password = password;
         this.lastname = lastname;
-        this.login=login;
-        this.email=email;
-        this.role = role;
+        this.login = login;
+        this.email = email;
         this.phone = phone;
-
+        this.balance = balance;
+        this.role = role;
     }
 
     public Integer getUserId() {
@@ -38,6 +36,30 @@ public class User implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getLogin() {
@@ -56,60 +78,34 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Integer getId() {
-        return userId;
-    }
-
-    public void setId(Integer usersId) {
-        this.userId = usersId;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-
-    public String getPhone() {
+    public Integer getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(Integer phone) {
         this.phone = phone;
     }
 
+    public Integer getBalance() {
+        return balance;
+    }
 
-    public String getRole() {
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
+
+    public int getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(int role) {
         this.role = role;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override
     public int hashCode() {
-        int hash = 17;
-        hash += this.firstname.hashCode() + this.lastname.hashCode() + this.email.hashCode();
+        int hash = 31;
+        hash += this.firstname.hashCode() + this.lastname.hashCode() + this.email.hashCode() + this.login.hashCode();
         return hash;
     }
 
@@ -125,16 +121,25 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) object;
+        if (userId != other.userId) return false;
 
         return ((this.firstname.equals(other.getFirstname())) && (this.lastname.equals(other.getLastname())) && (this.login.equals(other.getLogin()))
-                && (this.password.equals(other.getPassword()))&& (this.email.equals(other.getEmail()))
-                && (this.phone.equals(other.getPhone())) && (this.role.equals(other.getRole())));
+                && (this.password.equals(other.getPassword())) && (this.email.equals(other.getEmail()))
+                && (this.phone.equals(other.getPhone())) && (this.role == other.getRole()));
     }
 
     @Override
     public String toString() {
-        return "User{" + "userId=" + userId + ", firstname=" + firstname + ", lastname=" + lastname
-                + ", login=" + login + ", password=" + password +", phone=" + phone + ", email=" + email
-                + ", role=" + role +  '}';
+        return "User{" +
+                "userId=" + userId +
+                ", firstname='" + firstname + '\'' +
+                ", password='" + password + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", phone=" + phone +
+                ", balance=" + balance +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

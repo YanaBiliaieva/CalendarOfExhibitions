@@ -1,6 +1,6 @@
 package services;
 
-import model.dao.ClientDao;
+import model.dao.implementation.UserDaoImpl;
 import model.dao.DaoFactory;
 import model.entities.Client;
 import exception.DAOException;
@@ -30,14 +30,14 @@ public class RegisterService {
 
     public void register(String name, String login, String password) throws RegistrationException, SQLException, DAOException, TransactionException {
 
-        ClientDao clientDao = DaoFactory.getClientDao();
+        UserDaoImpl userDaoImpl = DaoFactory.getUserDaoImpl();
         TransactionManager.beginTransaction();
-        if(Objects.isNull(clientDao.getByLogin(login))){
+        if(Objects.isNull(userDaoImpl.getByLogin(login))){
             Client client = new Client();
             client.setName(name);
             client.setLogin(login);
             client.setPassword(password);
-            clientDao.insert(client);
+            userDaoImpl.insert(client);
             TransactionManager.endTransaction();
         } else {
             TransactionManager.endTransaction();

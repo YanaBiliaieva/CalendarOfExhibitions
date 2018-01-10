@@ -1,14 +1,23 @@
 package model.dao;
 
-public class DaoFactory {
-    private DaoFactory(){};
-    private static ClientDao clientDao = new ClientDao();
-    private static DaoFactory daoFactory = new DaoFactory();
-    public static DaoFactory getInstance(){
-        return daoFactory;
-    }
+import model.dao.implementation.*;
 
-    public static ClientDao getClientDao(){
-        return clientDao;
+/** Class containing methods for returning dao objects for different entities. */
+public class DaoFactory {
+    /** @return the MySQL-oriented implementation of the IUserDAO interface. */
+    public static UserDaoImpl getUserDaoImpl(){
+        return new UserDaoImpl();
+    }
+    public static HallDaoImpl getHallDaoImpl(){
+        return new HallDaoImpl();
+    }
+    public static PaymentDaoImpl getPaymentDaoImpl(){
+        return new PaymentDaoImpl();
+    }
+    public static ExpositionDaoImpl getExpositionDaoImpl(){
+        return new ExpositionDaoImpl();
+    }
+    public static TicketsDaoImpl getTicketsDaoImpl(){
+        return new TicketsDaoImpl();
     }
 }

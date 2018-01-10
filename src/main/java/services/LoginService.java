@@ -1,9 +1,9 @@
 package services;
 
-import model.dao.ClientDao;
+import model.dao.implementation.UserDaoImpl;
 import model.dao.DaoFactory;
-import model.entities.Client;
 import exception.DAOException;
+import model.entities.User;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -22,9 +22,9 @@ public class LoginService {
 
     public boolean verify(String login, String password) throws SQLException, DAOException {
 
-        ClientDao clientDao = DaoFactory.getClientDao();
-        Client client = clientDao.getByLogin(login);
+        UserDaoImpl userDaoImpl = DaoFactory.getUserDaoImpl();
+        User user = userDaoImpl.getByLogin(login);
 
-        return  (Objects.nonNull(client) && client.getPassword().equals(password));
+        return  (Objects.nonNull(user) && user.getPassword().equals(password));
     }
 }

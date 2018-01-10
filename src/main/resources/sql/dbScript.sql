@@ -7,27 +7,31 @@ CREATE TABLE `exhibcalendar`.`users` (
   `last_name` VARCHAR(110) NOT NULL,
   `login` VARCHAR(100) NOT NULL UNIQUE,
   `password` VARCHAR(50) NOT NULL,
-  `phone` INTEGER(15) NOT NULL DEFAULT 0000000000,
+  `phone` INTEGER(11) NOT NULL DEFAULT 1234567890,
   `balance` INTEGER(10) DEFAULT 0,
   `role` INT(10) DEFAULT 0,
   `email` VARCHAR(255) NOT NULL);
 
+DROP TABLE IF EXISTS `exhibcalendar`.`cities`;
+CREATE TABLE `exhibcalendar`.`cities` (
+  `id_ci` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
+  `name` VARCHAR(100) NOT NULL UNIQUE);
 DROP TABLE IF EXISTS `exhibcalendar`.`halls`;
-
 CREATE TABLE `exhibcalendar`.`halls` (
   `id_ha` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
   `name` VARCHAR(255) NOT NULL UNIQUE,
-  `city` VARCHAR(50) NOT NULL);
+  `fk_id_ci` INTEGER NOT NULL,
+  `address` VARCHAR(50) NOT NULL);
 
+ALTER TABLE `exhibcalendar`.`halls` ADD FOREIGN KEY `halls`(`fk_id_ci`) REFERENCES `cities`(`id_ci`);
 DROP TABLE IF EXISTS `exhibcalendar`.`expositions`;
 
 CREATE TABLE `exhibcalendar`.`expositions` (
   `id_ex` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
-  `name` VARCHAR(255) NOT NULL,
-  `date_start` DATETIME,
-  `date_end` DATETIME,
+  `theme` VARCHAR(255) NOT NULL,
+  `date_start` DATE,
+  `date_end` DATE,
   `description` VARCHAR(255) NOT NULL,
-  `theme_name` VARCHAR(255) NOT NULL,
   `fk_id_ha` INTEGER NOT NULL,
   `price` INTEGER NOT NULL );
 
@@ -37,8 +41,9 @@ DROP TABLE IF EXISTS `exhibcalendar`.`payments`;
 
 CREATE TABLE `exhibcalendar`.`payments` (
   `id_pa` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
-  `fk_id_ti` INTEGER NOT NULL ,
-  `fk_id_us` INTEGER NOT NULL );
+  `fk_id_ti` INTEGER NOT NULL UNIQUE ,
+  `fk_id_us` INTEGER NOT NULL,
+  `date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP );
 
 ALTER TABLE `exhibcalendar`.`payments` ADD FOREIGN KEY `payments`(`fk_id_us`) REFERENCES `users`(`id_us`);
 
@@ -53,4 +58,13 @@ ALTER TABLE `exhibcalendar`.`payments` ADD FOREIGN KEY (`fk_id_ti`) REFERENCES `
 ALTER TABLE `exhibcalendar`.`tickets` ADD FOREIGN KEY `tickets`(`fk_id_ex`) REFERENCES `expositions`(`id_ex`);
 
 INSERT INTO `exhibcalendar`.`users`
-(`first_name`, `last_name`, `login`, `password`, `role`, `email`,`balance`,`phone`) VALUES ('vasya', 'pupkin', 'pupVas', 'qwerty', '0', 'pupkin@gmail.com','100','0524654152');
+(`first_name`, `last_name`, `login`, `password`, `role`, `email`,`balance`,`phone`)
+VALUES ('vasya', 'pupkin', 'pupVas', 'qwerty', '0', 'pupkin@gmail.com','100','0524654152');
+INSERT INTO `exhibcalendar`.`cities`(`name`)VALUE ('kyiv');
+INSERT INTO `exhibcalendar`.`halls`(`name`, `fk_id_ci`, `address`) VALUES ('Green', '1', 'kudriashova 7');
+INSERT INTO `exhibcalendar`.`expositions`(`theme`, `price`, `date_start`, `date_end`, `description`, `fk_id_ha`)
+VALUES ('Gals theme', '40', '2018-02-15', '2018-02-19', 'New gal exhibition', '1');
+INSERT INTO `exhibcalendar`.`tickets`(`number`, `fk_id_ex`)
+VALUES ('50067888', '1'), ('50067889', '1'), ('50067890', '1'), ('50067891', '1');
+INSERT INTO `exhibcalendar`.`payments`(`fk_id_ti`, `fk_id_us`)
+VALUES ('1', '1'), ('2', '1'), ('3', '1');
