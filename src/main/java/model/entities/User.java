@@ -13,12 +13,12 @@ public class User implements Serializable {
     private String email;
     private Integer phone;
     private Integer balance;
-    private int role;
+    private String role;
 
     public User() {
     }
 
-    public User(Integer userId, String firstname, String password, String lastname, String login, String email, Integer phone, Integer balance, int role) {
+    public User(Integer userId, String firstname, String password, String lastname, String login, String email, Integer phone, Integer balance, String role) {
         this.userId = userId;
         this.firstname = firstname;
         this.password = password;
@@ -94,11 +94,11 @@ public class User implements Serializable {
         this.balance = balance;
     }
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -125,7 +125,7 @@ public class User implements Serializable {
 
         return ((this.firstname.equals(other.getFirstname())) && (this.lastname.equals(other.getLastname())) && (this.login.equals(other.getLogin()))
                 && (this.password.equals(other.getPassword())) && (this.email.equals(other.getEmail()))
-                && (this.phone.equals(other.getPhone())) && (this.role == other.getRole()));
+                && (this.phone.equals(other.getPhone())) && (this.role.equals(other.getRole())));
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.Objects;
 public class RegistrationCommand implements Command {
     private Logger logger = Logger.getLogger(RegistrationCommand.class);
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
@@ -24,7 +24,7 @@ public class RegistrationCommand implements Command {
         if(Objects.isNull(name) || Objects.isNull(login) || Objects.isNull(password)){
                 request.setAttribute("errorMessage","All fields must been not null");
                 request.getRequestDispatcher(FactoryCommand.REGISTER).forward(request,response);
-            return;
+            return name;
         }
         RegisterService registerService = RegisterService.getRegisterService();
         try {
@@ -40,5 +40,6 @@ public class RegistrationCommand implements Command {
         } catch (DAOException e) {
             e.printStackTrace();
         }
+        return name;
     }
 }

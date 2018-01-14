@@ -34,10 +34,10 @@ public class RegisterService {
         TransactionManager.beginTransaction();
         if(Objects.isNull(userDaoImpl.getByLogin(login))){
             Client client = new Client();
-            client.setName(name);
-            client.setLogin(login);
-            client.setPassword(password);
-            userDaoImpl.insert(client);
+//            client.setName(name);
+//            client.setLogin(login);
+//            client.setPassword(password);
+//            userDaoImpl.createUser(client);
             TransactionManager.endTransaction();
         } else {
             TransactionManager.endTransaction();

@@ -10,7 +10,7 @@ public interface ExpositionDao {
 
     Exposition getById(int id);
 
-    List<Exposition> getAllExpositions();
+    List<List<String>> getAllExpositions();
 
     void update(Exposition exposition);
 

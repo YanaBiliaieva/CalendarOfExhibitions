@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserDao {
     void createUser(String firstname, String lastname, String login, String password, int phone, int balance, String email);
 
-    void createAdmin(String firstname, String lastname, String login, String password, int phone, int balance, String email, int role);
+    void createAdmin(String firstname, String lastname, String login, String password, int phone, int balance, String email);
 
     User getByLogin(String login);
 

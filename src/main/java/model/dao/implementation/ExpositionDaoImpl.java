@@ -11,9 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ExpositionDaoImpl implements ExpositionDao {
     private static Logger log = Logger.getLogger(ExpositionDaoImpl.class);
@@ -21,7 +19,11 @@ public class ExpositionDaoImpl implements ExpositionDao {
     private static final String CREATE_EXPOSITION = "INSERT INTO expositions(theme, date_start, date_end, description, fk_id_ha, price) VALUES (?,?,?,?,?,?)";
     private static final String DELETE_EXPOSITION = "DELETE FROM expositions WHERE id_ex=?";
     private static final String UPDATE_EXPOSITION = "UPDATE expositions SET theme=?,date_start=? date_end=?, description=?, fk_id_ha=?, price=? WHERE id_ex=?";
-    private static final String GET_ALL_EXPOSITION = "SELECT * FROM expositions";
+    private static final String GET_ALL_EXPOSITION = "SELECT id_ex, theme, date_start,date_end, description, price, ha.name, ha.address, ci.name FROM expositions ex" +
+            " LEFT JOIN halls ha ON ex.fk_id_ha=ha.id_ha LEFT JOIN cities ci ON ha.fk_id_ci = ci.id_ci;";
+
+    public ExpositionDaoImpl() {
+    }
 
     @Override
     public void createExposition(String theme, Date start, Date end, String description, int fk_id_ha, int price) {
@@ -79,30 +81,47 @@ public class ExpositionDaoImpl implements ExpositionDao {
     }
 
     @Override
-    public List<Exposition> getAllExpositions() {
+    public List<List<String>> getAllExpositions() {
         ConnectionWrapper con = null;
         ResultSet resultSet = null;
-        Map<Integer, Exposition> expositionMap = null;
+
+        Integer counter=0;
+        List<List<String>> lists=new ArrayList<>();
         try {
             con = TransactionManager.getConnection();
             PreparedStatement statement = con.preparedStatement(GET_ALL_EXPOSITION);
-            expositionMap = new HashMap<>();
+
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                int id = resultSet.getInt("id_ex");
-                Exposition exposition = new Exposition();
-                exposition.setId(id);
-                exposition.setTheme(resultSet.getString("theme"));
-                exposition.setDateStart(resultSet.getDate("date_start"));
-                exposition.setDateEnd(resultSet.getDate("date_end"));
-                exposition.setDescription(resultSet.getString("description"));
-                exposition.setHallId(resultSet.getInt("fk_id_ha"));
-                exposition.setPrice(resultSet.getInt("price"));
-                expositionMap.put(id, exposition);
+                List<String> expositions = new ArrayList<>();
+                String id = String.valueOf(resultSet.getInt("id_ex"));
+                String theme=resultSet.getString("theme");
+                String dateStart= String.valueOf(resultSet.getDate("date_start"));
+                String dateEnd= String.valueOf(resultSet.getDate("date_end"));
+                String description=resultSet.getString("description");
+                String price=String.valueOf(resultSet.getInt("price"));
+                String hallName=resultSet.getString("ha.name");
+                String hallAddress=resultSet.getString("ha.address");
+                String cityName=resultSet.getString("ci.name");
+                counter++;
+                expositions.add(String.valueOf(counter));
+                expositions.add(id);
+                expositions.add(theme);
+                expositions.add(dateStart);
+                expositions.add(dateEnd);
+                expositions.add(description);
+                expositions.add(price);
+                expositions.add(hallName);
+                expositions.add(hallAddress);
+                expositions.add(cityName);
+                System.out.println(id);
+                lists.add(expositions);
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             log.error("Can't find expositions", e);
-        } finally {
+        }
+        finally {
             try {
                 resultSet.close();
             } catch (SQLException e) {
@@ -114,7 +133,7 @@ public class ExpositionDaoImpl implements ExpositionDao {
                 log.error("Can't close connection", e);
             }
         }
-        return new ArrayList<>(expositionMap.values());
+        return lists;
     }
 
     @Override

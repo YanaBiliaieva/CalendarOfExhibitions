@@ -16,12 +16,13 @@ import java.util.Map;
 
 public class UserDaoImpl implements UserDao {
     private static Logger log = Logger.getLogger(UserDaoImpl.class);
-    private static final String GET_BY_LOGIN = "SELECT * FROM users WHERE login = ?";
+    private static final String GET_BY_LOGIN = "SELECT first_name, login, password, ro.name FROM users us LEFT JOIN role ro On us.fk_ro=ro.id_ro WHERE login = ?";
     private static final String CREATE_USER = "INSERT INTO users(first_name, last_name,login , password, phone, balance,email) VALUES (?,?,?,?,?,?,?)";
     private static final String CREATE_ADMIN = "INSERT INTO users(first_name, last_name, login, password, phone, balance,email,role) VALUES (?,?,?,?,?,?,?,?)";
     private static final String DELETE_USER = "DELETE FROM users WHERE id=?";
     private static final String UPDATE_USER = "UPDATE users SET first_name=?,last_name=?,login=?,email=?,password=?, phone=?, balance=?,email=?,role=? WHERE id=?";
-    private static final String GET_ALL_USERS = "SELECT * FROM users WHERE role =0";
+    private static final String GET_ALL_USERS = "SELECT first_name, last_name, login, password, phone, balance,email,ro.name" +
+            " FROM users us LEFT JOIN role ro On us.fk_ro=ro.id_ro WHERE role =1";
 
     public UserDaoImpl() {
     }
@@ -38,12 +39,12 @@ public class UserDaoImpl implements UserDao {
                 user.setFirstname(resultSet.getString("first_name"));
                 user.setLogin(resultSet.getString("login"));
                 user.setPassword(resultSet.getString("password"));
-                user.setRole(resultSet.getInt("role"));
+                user.setRole(resultSet.getString("ro.name"));
                 return user;
             }
         } catch (SQLException e) {
-            log.error("Cannot get User by id", e);
-            // throw new DAOException();
+            log.error("Cannot get User by login"+login, e);
+
         } finally {
             try {
                 con.close();
@@ -73,12 +74,12 @@ public class UserDaoImpl implements UserDao {
                 user.setPassword(resultSet.getString("password"));
                 user.setPhone(resultSet.getInt("phone"));
                 user.setBalance(resultSet.getInt("balance"));
-                user.setRole(0);
+                user.setRole(resultSet.getString("ro.name"));
                 user.setEmail(resultSet.getString("email"));
                 userById.put(id, user);
             }
         } catch (SQLException e) {
-            log.error("Can't find users", e);
+            log.error("Can't find all users", e);
         } finally {
             try {
                 resultSet.close();
@@ -121,7 +122,7 @@ public class UserDaoImpl implements UserDao {
 
     }
     @Override
-    public void createAdmin(String firstname, String lastname, String login, String password, int phone, int balance, String email, int role) {
+    public void createAdmin(String firstname, String lastname, String login, String password, int phone, int balance, String email ) {
         ConnectionWrapper con = null;
         try {
             con = TransactionManager.getConnection();
@@ -133,7 +134,7 @@ public class UserDaoImpl implements UserDao {
             statement.setInt(5, phone);
             statement.setInt(6, balance);
             statement.setString(7, email);
-            statement.setInt(8, role);
+            statement.setInt(8, 2);
             statement.executeQuery();
 
         } catch (SQLException e) {
@@ -160,7 +161,8 @@ public class UserDaoImpl implements UserDao {
             statement.setInt(5, user.getPhone());
             statement.setInt(6, user.getBalance());
             statement.setString(7, user.getEmail());
-            statement.setInt(8, user.getRole());
+            if(user.getRole().equals("ADMIN"))statement.setInt(8, 2);
+            else statement.setInt(8, 1);
             statement.setInt(9, user.getUserId());
             statement.executeQuery();
 
