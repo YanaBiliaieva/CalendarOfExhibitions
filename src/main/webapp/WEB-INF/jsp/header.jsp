@@ -9,6 +9,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
+<div class="row">
+    <div class="column side"></div>
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="interface"/>
 <table>
@@ -55,7 +57,7 @@
         </button>
     </form>
 </table>
-
+</div>
 
 
 

@@ -16,7 +16,7 @@
 </head>
 
 <body>
-${language}
+
 <c:import url="/WEB-INF/jsp/header.jsp"/><br/>
 
 
@@ -30,80 +30,11 @@ ${language}
     <c:set var="pageStart" value="${pageStart - perPage}"/>
 </c:if>
 
-<h1><fmt:message key="exhibitions" /></h1>
-<table class="exhibitionsTable">
-    <thead>
-    <tr>
-        <th>head1</th>
-        <th>head2</th>
-        <th>head3</th>
-        <th>head4</th>
-        <th>head5</th>
-        <th>head6</th>
-        <th>head7</th>
-        <th>head8</th>
-    </tr>
-    </thead>
-    <tfoot>
-    <tr>
-        <td colspan="8">
-            <div class="links"><a href="#">&laquo;</a> <a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">&raquo;</a></div>
-        </td>
-    </tr>
-    </tfoot>
-    <tbody>
-    <tr>
-        <td>cell1_1</td>
-        <td>cell2_1</td>
-        <td>cell3_1</td>
-        <td>cell4_1</td>
-        <td>cell5_1</td>
-        <td>cell6_1</td>
-        <td>cell7_1</td>
-        <td>cell8_1</td>
-    </tr>
-    <tr>
-        <td>cell1_2</td>
-        <td>cell2_2</td>
-        <td>cell3_2</td>
-        <td>cell4_2</td>
-        <td>cell5_2</td>
-        <td>cell6_2</td>
-        <td>cell7_2</td>
-        <td>cell8_2</td>
-    </tr>
-    <tr>
-        <td>cell1_3</td>
-        <td>cell2_3</td>
-        <td>cell3_3</td>
-        <td>cell4_3</td>
-        <td>cell5_3</td>
-        <td>cell6_3</td>
-        <td>cell7_3</td>
-        <td>cell8_3</td>
-    </tr>
-    <tr>
-        <td>cell1_4</td>
-        <td>cell2_4</td>
-        <td>cell3_4</td>
-        <td>cell4_4</td>
-        <td>cell5_4</td>
-        <td>cell6_4</td>
-        <td>cell7_4</td>
-        <td>cell8_4</td>
-    </tr>
-    <tr>
-        <td>cell1_5</td>
-        <td>cell2_5</td>
-        <td>cell3_5</td>
-        <td>cell4_5</td>
-        <td>cell5_5</td>
-        <td>cell6_5</td>
-        <td>cell7_5</td>
-        <td>cell8_5</td>
-    </tr>
-    </tbody>
-</table>
+
+<div class="row">
+    <div class="column side"></div>
+    <div class="column middle" style="background-color:#bbb;">
+        <h1 class="header"><fmt:message key="exhibitions" /></h1>
 <table class="exhibitionsTable">
     <thead>
     <tr>
@@ -111,36 +42,28 @@ ${language}
         <th><fmt:message key="theme" /></th>
         <th><fmt:message key="date_start" /></th>
         <th><fmt:message key="date_end" /></th>
-        <th><fmt:message key="description" /></th>
         <th><fmt:message key="price" /></th>
-        <th><fmt:message key="hallName" /></th>
         <th><fmt:message key="hallCity" /></th>
-        <th><fmt:message key="hallAddress" /></th>
         <th><fmt:message key="tickets" /></th>
+        <th><fmt:message key="tr_more" /></th>
     </tr>
     </thead>
-    <tfoot>
+
     <c:set var="count" value="0" scope="page"/>
     <c:forEach var="exhibition" items="${exhibitions}" begin="${pageStart}" end="${pageStart + perPage - 1}">
-    <a href="?start=${pageStart - perPage}"><<</a>${pageStart + 1} - ${pageStart + perPage}
-    <a href="?start=${pageStart + perPage}">>></a>
-    </tfoot>
-    <tbody>
 
+    <tbody>
         <tr>
-            <td><c:set var="count" value="${count + 1}" scope="page"></c:set>
-                <c:out value="${count}"/>
+            <td>
+                <c:out value="${count+1}"/>
+                <c:set var="count" value="${count}" scope="page"/>
             </td>
             <td><c:out value="${exhibition.theme}"/></td>
             <td><c:out value="${exhibition.dateStart}"/></td>
             <td><c:out value="${exhibition.dateEnd}"/></td>
-            <td><c:out value="${exhibition.description}"/></td>
             <td><c:out value="${exhibition.price}"/></td>
-            <td><c:out value="${exhibition.hallName}"/></td>
             <td><c:out value="${exhibition.hallCity}"/></td>
-            <td><c:out value="${exhibition.hallAddress}"/></td>
             <td><c:out value="${exhibition.ticketsAvailable}"/></td>
-            <td> exhibition.id=<c:out value="${exhibition.id}"/></td>
             <td>
                 <form action="exposition" method="post">
                     <input type="hidden" name="expositionId" value="${exhibition.id}">
@@ -151,7 +74,10 @@ ${language}
             </td>
         </tr>
     </c:forEach>
-    </tbody>
+    <tfoot>
+    <a href="?start=${pageStart - perPage}"><<</a>${pageStart + 1} - ${pageStart + perPage}
+    <a href="?start=${pageStart + perPage}">>></a>
+    </tfoot></tbody>
 </table>
 
 <form>
@@ -160,6 +86,8 @@ ${language}
         <option value="ru_RU" ${language == 'ru_RU' ? 'selected' : ''}>Русский</option>
     </select>
 </form>
+</div>
+</div>
 </body>
 </html>
 

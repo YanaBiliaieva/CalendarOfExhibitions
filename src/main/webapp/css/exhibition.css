@@ -1,0 +1,119 @@
+body {
+    background-color: #EDE2DC;
+}
+#message{
+    text-align: center;
+    font-size: 20px;
+    color: #AB3B61;
+    font-weight: bold;
+}
+/* Style the header */
+.header {
+    background-color: #BBBBBB;
+    padding: 0px;
+    text-align: center;
+    font-size: 20px;
+    color: #CC7B91;
+}
+button, input[type="button"], input[type="submit"] {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #AB3B61;
+    background-color:  #EDC8B8;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 3px #999;
+}
+
+button:hover {background-color:#EDE2DD}
+
+button:active {
+    background-color: #123D6A;
+    box-shadow: 0 3px #EDC8B8;
+    transform: translateY(4px);
+}
+#language{
+    background-color:#EDE2DC;
+    color: #AB3B61;
+}
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+/* Create three unequal columns that floats next to each other */
+.column {
+    float: left;
+    padding: 10px;
+
+}
+
+/* Left and right column */
+.column.side {
+    width: 25%;
+}
+
+/* Middle column */
+.column.middle {
+    width: 50%;
+}
+
+table.exhibitionsTable {
+    border: 0px ;
+    background-color: #EDE2DC;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+table.exhibitionsTable td, table.exhibitionsTable th {
+    border: 1px solid #EDC8B8;
+    padding: 3px 2px;
+}
+table.exhibitionsTable tbody td {
+    font-size: 15px;
+    color:#123D6A;
+}
+table.exhibitionsTable tr:nth-child(even) {
+    background: #EDC8B8;
+}
+table.exhibitionsTable thead {
+    background: #EDC8B8;
+    color:#123D6A;
+}
+table.exhibitionsTable thead th {
+    font-size: 17px;
+    font-weight: bold;
+    color: #123D6A;
+    text-align: center;
+    border-left: 2px solid #EDC8B8;
+}
+table.exhibitionsTable thead th:first-child {
+    border-left: none;
+}
+
+table.exhibitionsTable tfoot {
+    font-size: 11px;
+    font-weight: bold;
+    color:#123D6A;
+    background: #EDC8B8;
+}
+table.exhibitionsTable tfoot td {
+    font-size: 11px;
+}
+table.exhibitionsTable tfoot .links {
+    text-align: right;
+}
+table.exhibitionsTable tfoot .links a{
+    display: inline-block;
+    background: #FFFFFF;
+    color:#EDC8B8;
+    padding: 2px 8px;
+    border-radius: 5px;
+}

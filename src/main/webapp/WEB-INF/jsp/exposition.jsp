@@ -16,21 +16,24 @@
 
 <html>
 <head><title><fmt:message key="exhibitions" /></title>
+    <link rel="stylesheet" href="<c:url value="/css/exhibition.css"/>" type="text/css"/>
 </head>
 <body >
-${language}
 <c:import url="/WEB-INF/jsp/header.jsp"/><br/>
+<div class="row">
+    <div class="column side"></div>
+    <div class="column middle" style="background-color:#bbb;">
     <c:choose>
         <c:when test="${not empty exposition}">
-            <h2>${exposition.theme}</h2>
-            <table >
+            <h1 class="header">${exposition.theme}</h1>
+            <table class="exhibitionsTable">
                 <tr>
                     <th><fmt:message key="name" />:</th>
                     <td>${exposition.theme}</td>
                 </tr>
 
                 <tr>
-                    <th><fmt:message key="description" />:</th>
+                     <th><fmt:message key="description" />:</th>
                     <td>${exposition.description}</td>
                 </tr>
                 <tr>
@@ -67,27 +70,34 @@ ${language}
                 <fmt:message key="noExpositionsFound" />
         </c:otherwise>
     </c:choose>
-<c:choose>
-<c:when test="${not empty user}">
-    <form action="order" method="get">
-        <input type="hidden" name="expositionId" value="${exposition.id}">
+        <div id="message">
+            <c:choose>
+                <c:when test="${exposition.ticketsAvailable eq 0}">
+                    <fmt:message key="no_tickets_available" />
+                </c:when>
+                <c:otherwise>
+                    <c:when test="${not empty user} ">
+                        <form action="order" method="get">
+                            <input type="hidden" name="expositionId" value="${exposition.id}">
 
-        <button type="submit">
-            <fmt:message key="buy" />
-        </button>
-    </form>
-</c:when>
-    <c:otherwise>
-        <br>
-        <fmt:message key="not_logged" />
-    </c:otherwise>
+                            <button type="submit">
+                                <fmt:message key="buy" />
+                            </button>
+                        </form>
+                    </c:when><c:otherwise>
+                    <fmt:message key="not_logged" />
+                </c:otherwise>
+                </c:otherwise>
+            </c:choose>
+        </div>
 
-</c:choose>
 <form>
     <select id="language" name="language" onchange="submit()">
         <option value="en_EN" ${language == 'en_EN' ? 'selected' : ''}>English</option>
         <option value="ru_RU" ${language == 'ru_RU' ? 'selected' : ''}>Русский</option>
     </select>
 </form>
+    </div>
+</div>
 </body>
 </html>
