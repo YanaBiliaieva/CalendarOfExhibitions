@@ -144,7 +144,7 @@ ${language}
             <td>
                 <form action="exposition" method="post">
                     <input type="hidden" name="expositionId" value="${exhibition.id}">
-                    <button type="submit">
+                    <button class="myButton" type="submit">
                         <fmt:message key="more" />
                     </button>
                 </form>

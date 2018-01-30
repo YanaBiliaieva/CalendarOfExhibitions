@@ -1,49 +1,80 @@
 package controller.command;
 
-import org.apache.log4j.Logger;
+import controller.ConfigurationManager;
 import exception.DAOException;
+import model.entities.Exposition;
+import model.entities.User;
+import org.apache.log4j.Logger;
+import services.ExhibitionsService;
 import services.LoginService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Objects;
+
+import static controller.command.FactoryCommand.ERROR;
 
 public class LoginCommand implements Command {
     private Logger logger = Logger.getLogger(LoginCommand.class);
-
+    private LoginService loginService = LoginService.getLoginService();
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        logger.debug("String login = "+login);
-        logger.debug("String password = "+password);
-        String page=null;
-        if (Objects.isNull(login) || Objects.isNull(password)) {
-            request.getSession().setAttribute("nullCredentials", "Cannot login");
-            //request.getRequestDispatcher(FactoryCommand.ERROR);
-        }else {
-
-            LoginService loginService = LoginService.getLoginService();
+    public void execute(HttpServletRequest request, HttpServletResponse response)  {
+        logger.info("In LoginCommand execute method");
+        if (request.getMethod().equals("GET")) {
+            logger.info("In LoginCommand execute get");
             try {
-                if (loginService.verify(login, password)) {
-                    logger.debug("login and password match with database ");
-                    HttpSession session = request.getSession();
-                    session.setAttribute("loggedUser", login);
-                    page=FactoryCommand.EXHIBITIONS;
+                request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.login"))
+                        .forward(request, response);
+            } catch (ServletException | IOException e) {
+                logger.error("Cannot go to login page"+e);
+            }
+        }else if (request.getMethod().equals("POST")) {
+            String login = request.getParameter("login");
+            String password = request.getParameter("password");
 
-                }else {
-                    request.setAttribute("errorMessageLogin", "Login incorrect");
-                    request.getRequestDispatcher(FactoryCommand.LOGIN).forward(request, response);
+            logger.debug("String login = "+login);
+            logger.debug("String password = "+password);
+
+            if (Objects.isNull(login) || Objects.isNull(password)) {
+                request.getSession().setAttribute("nullCredentials", "Cannot login");
+                try {
+                    response.sendRedirect(ERROR);
+                } catch (IOException e) {
+                    logger.error("Cannot go to error page"+e);
                 }
-            } catch (SQLException | DAOException e) {
-                logger.error("Error while verifying login"+e);
+            }else {
+                try {
+                    User user = loginService.verify(login, password);
+                    if (Objects.isNull(user)){
+                        request.setAttribute("login_incorrect", true);
+                        logger.debug("login_incorrect");
+                        try {
+                            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.login"))
+                                    .forward(request, response);
+                        } catch (ServletException | IOException e) {
+                            logger.error("Cannot go to login page"+e);
+                        }
+                    }else {
+                        request.getSession().setAttribute("user", user);
+                        logger.debug("User with login"+user.getLogin()+" logged in.");
+                        try {
+                            List<Exposition> exhibitions = ExhibitionsService.getExhibitions();
+                            request.setAttribute("exhibitions", exhibitions);
+                            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.index"))
+                                    .forward(request, response);
+                        } catch (ServletException | IOException e) {
+                            logger.error("Cannot go to index page"+e);
+                        }
+                    }
+                } catch (SQLException | DAOException e) {
+                    logger.error("Error while verifying login"+e);
+                }
             }
         }
 
-        return page;
     }
 }

@@ -18,17 +18,17 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        String codeRequest=request.getCharacterEncoding();
+        String codeRequest = request.getCharacterEncoding();
         //установка кодировки из параметров фильтра, если не установлена
-        if(code!=null&&!code.equalsIgnoreCase(codeRequest)){
+        if (code != null && !code.equalsIgnoreCase(codeRequest)) {
             request.setCharacterEncoding(code);
             response.setCharacterEncoding(code);
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
     @Override
     public void destroy() {
-        code=null;
+        code = null;
     }
 }

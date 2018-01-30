@@ -11,48 +11,51 @@
 <!DOCTYPE html>
 <fmt:setLocale value="${language}"/>
 <fmt:setBundle basename="interface"/>
-<c:choose>
-    <c:when test="${sessionScope.user.role eq 'USER'}">
+<table>
+    <c:choose>
+        <c:when test="${sessionScope.user.role eq 'USER'}">
             <fmt:message key="hello" />,<c:out value="${sessionScope.user.firstname}"/>
-        <form action="logout" method="get">
-            <button type="submit">
-                <fmt:message key="logout" />
-            </button>
-        </form>
-    </c:when>
-    <c:when test="${sessionScope.user.role eq 'ADMIN'}">
-        <fmt:message key="hello" />, <c:out value="${sessionScope.user.firstname}"/>
-        <form action="adminpanel" method="get">
-            <button type="submit">
-                <fmt:message key="admin_panel" />
-            </button>
-        </form>
-        <form action="logout" method="get">
-            <button type="submit">
-                <fmt:message key="logout" />
-            </button>
-        </form>
-    </c:when>
+            <form action="logout" method="get">
+                <button type="submit">
+                    <fmt:message key="logout" />
+                </button>
+            </form>
+        </c:when>
+        <c:when test="${sessionScope.user.role eq 'ADMIN'}">
+            <fmt:message key="hello" />, <c:out value="${sessionScope.user.firstname}"/>
+            <form action="adminpanel" method="get">
+                <button type="submit">
+                    <fmt:message key="admin_panel" />
+                </button>
+            </form>
+            <form action="logout" method="get">
+                <button type="submit">
+                    <fmt:message key="logout" />
+                </button>
+            </form>
+        </c:when>
 
-    <c:otherwise>
-        <form action="login" method="get">
-            <button type="submit">
-                <fmt:message key="login" />
-            </button>
-        </form>
-        <form action="register" method="get">
-            <button type="submit">
-                <fmt:message key="registration" />
-            </button>
-        </form>
+        <c:otherwise>
+            <form action="login" method="get">
+                <button type="submit">
+                    <fmt:message key="login" />
+                </button>
+            </form>
+            <form action="register" method="get">
+                <button type="submit">
+                    <fmt:message key="registration" />
+                </button>
+            </form>
 
-    </c:otherwise>
-</c:choose>
-<form action="exhibitions" method="get">
-    <button type="submit">
-        <fmt:message key="home_page" />
-    </button>
-</form>
+        </c:otherwise>
+    </c:choose>
+    <form action="exhibitions" method="get">
+        <button type="submit">
+            <fmt:message key="home_page" />
+        </button>
+    </form>
+</table>
+
 
 
 

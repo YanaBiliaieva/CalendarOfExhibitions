@@ -7,8 +7,8 @@ import java.io.IOException;
 
 public class UsersCommand implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        return null;
+
     }
 }
