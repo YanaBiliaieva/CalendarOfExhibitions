@@ -9,7 +9,7 @@
 
     <tag>
         <name>showDate</name>
-        <tag-class>taglib.DisplayDateTag</tag-class>
+        <tag-class>exhibitions.taglib.DisplayDateTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>date</name>

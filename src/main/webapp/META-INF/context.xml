@@ -5,5 +5,11 @@
               type="javax.sql.DataSource" maxActive="100"
               minIdle="30" username="root"
               password="rout" driverClassName="com.mysql.jdbc.Driver"
-              url="jdbc:mysql://localhost:3306/exhibcalendar"/>
+              url="jdbc:mysql://localhost:3306/exhibcalendar"
+              connectionProperties="useSSL=false;
+                                    autoReconnect=true;
+                                    useJDBCCompliantTimezoneShift=true;
+                                    useLegacyDatetimeCode=false;
+                                    serverTimezone=UTC"
+    />
 </Context>

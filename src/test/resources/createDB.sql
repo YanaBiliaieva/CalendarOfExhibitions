@@ -1,0 +1,69 @@
+CREATE TABLE IF NOT EXISTS roles (
+  id_ro INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(20) NOT NULL UNIQUE);
+INSERT INTO roles (name) VALUES ('USER');
+INSERT INTO roles (name) VALUES ('ADMIN');
+
+CREATE TABLE IF NOT EXISTS users (
+  id_us INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(110) NOT NULL,
+  login VARCHAR(100) NOT NULL UNIQUE,
+  password VARCHAR(50) NOT NULL,
+  phone VARCHAR(12) NOT NULL ,
+  balance INT(10) DEFAULT 0,
+  fk_role INT(10) DEFAULT 1,
+  email VARCHAR(255) NOT NULL,
+  FOREIGN KEY (fk_role)
+  REFERENCES roles (id_ro)
+);
+
+
+CREATE TABLE IF NOT EXISTS cities (
+  id_ci INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL UNIQUE);
+DROP TABLE IF EXISTS halls;
+CREATE TABLE halls (
+  id_ha INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL UNIQUE,
+  fk_id_ci INT NOT NULL,
+  address VARCHAR(50) NOT NULL,
+  FOREIGN KEY (fk_id_ci)
+  REFERENCES cities(id_ci)
+);
+
+
+CREATE TABLE IF NOT EXISTS expositions (
+  id_ex INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  theme VARCHAR(255) NOT NULL,
+  date_start DATE,
+  date_end DATE,
+  description VARCHAR(255) NOT NULL,
+  fk_id_ha INT NOT NULL,
+  price INT NOT NULL ,
+  tickets INT DEFAULT 0,
+  FOREIGN KEY (fk_id_ha)
+  REFERENCES halls(id_ha)
+);
+
+CREATE TABLE IF NOT EXISTS tickets (
+  id_ti INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  number VARCHAR(244) UNIQUE NOT NULL ,
+  fk_id_ex INT NOT NULL,
+  FOREIGN KEY (fk_id_ex)
+  REFERENCES expositions(id_ex)
+);
+CREATE TABLE IF NOT EXISTS payments (
+  id_pa INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  fk_id_ti INT NOT NULL UNIQUE ,
+  fk_id_us INT NOT NULL,
+  amount INT NOT NULL DEFAULT 0,
+  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (fk_id_us)
+  REFERENCES users(id_us),
+  FOREIGN KEY (fk_id_ti)
+  REFERENCES tickets(id_ti)
+);
+
+
+

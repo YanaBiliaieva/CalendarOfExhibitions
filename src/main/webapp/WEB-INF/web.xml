@@ -14,7 +14,7 @@
 
     <servlet>
         <servlet-name>ServletDispatcher</servlet-name>
-        <servlet-class>controller.servlets.ServletDispatcher</servlet-class>
+        <servlet-class>exhibitions.controller.servlets.ServletDispatcher</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ServletDispatcher</servlet-name>
@@ -39,7 +39,7 @@
     </welcome-file-list>
     <filter>
         <filter-name>SecurityFilter</filter-name>
-        <filter-class>controller.filters.SecurityFilter</filter-class>
+        <filter-class>exhibitions.controller.filters.SecurityFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>SecurityFilter</filter-name>
@@ -48,7 +48,7 @@
 
     <filter>
         <filter-name>EncodingFilter</filter-name>
-        <filter-class>controller.filters.EncodingFilter</filter-class>
+        <filter-class>exhibitions.controller.filters.EncodingFilter</filter-class>
         <init-param>
             <param-name>Encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -67,7 +67,7 @@
         </session-timeout>
     </session-config>
     <listener>
-        <listener-class>controller.listeners.SessionListenerImpl</listener-class>
+        <listener-class>exhibitions.controller.listeners.SessionListenerImpl</listener-class>
     </listener>
     <context-param>
         <param-name>feedback</param-name>
