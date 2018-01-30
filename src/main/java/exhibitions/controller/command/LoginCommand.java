@@ -18,21 +18,18 @@ import java.util.Objects;
 
 import static exhibitions.controller.command.FactoryCommand.ERROR;
 
-public class LoginCommand implements Command {
+public class LoginCommand {
     private Logger logger = Logger.getLogger(LoginCommand.class);
     private LoginService loginService = LoginService.getLoginService();
 
-    @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
         logger.info("In LoginCommand execute method");
         if (request.getMethod().equals("GET")) {
             logger.info("In LoginCommand execute get");
-            try {
-                request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.login"))
-                        .forward(request, response);
-            } catch (ServletException | IOException e) {
-                logger.error("Cannot go to login page" + e);
-            }
+
+            return new CommandResult(ConfigurationManager.getProperty("path.page.login"));
+
         } else if (request.getMethod().equals("POST")) {
             String login = request.getParameter("login");
             String password = request.getParameter("password");
@@ -53,24 +50,17 @@ public class LoginCommand implements Command {
                     if (Objects.isNull(user)) {
                         request.setAttribute("login_incorrect", true);
                         logger.debug("login_incorrect");
-                        try {
-                            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.login"))
-                                    .forward(request, response);
-                        } catch (ServletException | IOException e) {
-                            logger.error("Cannot go to login page" + e);
-                        }
+
+
+                        return new CommandResult(ConfigurationManager.getProperty("path.page.login"));
+
                     } else {
                         request.getSession().setAttribute("user", user);
                         logger.debug("User with login" + user.getLogin() + " logged in.");
-                        try {
-                            List<Exposition> exhibitions = ExhibitionsService.getExhibitions();
-                            request.setAttribute("exhibitions", exhibitions);
-                            request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.index"))
-                                    .forward(request, response);
-                            return ConfigurationManager.getProperty("path.page.index");
-                        } catch (ServletException | IOException e) {
-                            logger.error("Cannot go to index page" + e);
-                        }
+                        List<Exposition> exhibitions = ExhibitionsService.getExhibitions();
+                        request.setAttribute("exhibitions", exhibitions);
+                        return new CommandResult(ConfigurationManager.getProperty("path.page.index"));
+
                     }
                 } catch (SQLException | DAOException e) {
                     logger.error("Error while verifying login" + e);

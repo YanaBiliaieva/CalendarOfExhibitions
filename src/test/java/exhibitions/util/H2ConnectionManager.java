@@ -93,7 +93,7 @@ public class H2ConnectionManager {
         }
     }
 
-    public Connection getConnection() {
+    Connection getConnection() {
         ConnectionWrapper wrapper=TransactionManager.getConnection();
         return wrapper.getConnection();
 

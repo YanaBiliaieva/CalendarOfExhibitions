@@ -13,17 +13,21 @@ import java.util.*;
 
 public class UserDaoImpl implements UserDao {
     private static Logger log = Logger.getLogger(UserDaoImpl.class);
-    private static final String GET_BY_LOGIN = "SELECT id_us, first_name, login, password, phone, last_name,balance, email," +
-            " ro.name FROM users us LEFT JOIN roles ro On us.fk_role=ro.id_ro WHERE login = ?";
-    private static final String CREATE_USER = "INSERT INTO users(first_name, last_name,login , password, phone, balance,email) VALUES (?,?,?,?,?,?,?)";
-    private static final String CREATE_ADMIN = "INSERT INTO users(first_name, last_name, login, password, phone, balance,email,role) VALUES (?,?,?,?,?,?,?,?)";
+    private static final String GET_BY_LOGIN = "SELECT id_us, first_name, login, password, phone, last_name,balance, " +
+            "email, fk_role  FROM users us WHERE login = ?";
+    private static final String CREATE_USER = "INSERT INTO users(first_name, last_name,login , password, phone, " +
+            "balance,email) VALUES (?,?,?,?,?,?,?)";
+    private static final String CREATE_ADMIN = "INSERT INTO users(first_name, last_name, login, password, phone, " +
+            "balance,email,role) VALUES (?,?,?,?,?,?,?,?)";
     private static final String DELETE_USER = "DELETE FROM users WHERE id=?";
-    private static final String UPDATE_USER = "UPDATE users SET first_name=?,last_name=?,login=?,email=?,password=?, phone=?, balance=?,email=?,role=? WHERE id=?";
+    private static final String UPDATE_USER = "UPDATE users SET first_name=?,last_name=?,login=?,email=?,password=?, " +
+            "phone=?, balance=?,email=?,role=? WHERE id=?";
     private static final String GET_ALL_USERS = "SELECT first_name, last_name, login, password, phone, balance,email,ro.name" +
             " FROM users us LEFT JOIN role ro On us.fk_ro=ro.id_ro WHERE role =1";
     private static final String UPDATE_USER_BALANCE = "UPDATE users SET balance=? WHERE id_us=?";
     private static final String FIND_LOGIN = "SELECT login FROM users WHERE login=?";
-    private static final String GET_USER_BALANCE="SELECT balance FROM users WHERE id_us=?";
+    private static final String GET_USER_BALANCE = "SELECT balance FROM users WHERE id_us=?";
+    private static final String GET_ROLE="SELECT name FROM roles WHERE id_ro=?";
     public UserDaoImpl() {
     }
 
@@ -40,7 +44,7 @@ public class UserDaoImpl implements UserDao {
                 return Objects.equals(resultLogin, login);
             }
         } catch (SQLException e) {
-            log.error("Cannot get User by login" + login, e);
+            log.error("Cannot find User by login" + login, e);
 
         } finally {
             try {
@@ -59,13 +63,13 @@ public class UserDaoImpl implements UserDao {
         try {
             con = TransactionManager.getConnection();
             PreparedStatement statement = con.preparedStatement(GET_USER_BALANCE);
-            statement.setInt(1,userId);
-            ResultSet resultSet=statement.executeQuery();
-            Integer newBalance=null;
-            while (resultSet.next()){
-                newBalance=resultSet.getInt("balance");
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            Integer newBalance = null;
+            while (resultSet.next()) {
+                newBalance = resultSet.getInt("balance");
             }
-            if(newBalance!=null){
+            if (newBalance != null) {
                 statement = con.preparedStatement(UPDATE_USER_BALANCE);
                 statement.setInt(1, ticketsPrice);
                 statement.setInt(2, userId);
@@ -94,8 +98,10 @@ public class UserDaoImpl implements UserDao {
             PreparedStatement statement = con.preparedStatement(GET_BY_LOGIN);
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
+            User user = new User();
+            Integer roleId=null;
             if (resultSet.next()) {
-                User user = new User();
+
                 user.setUserId(resultSet.getInt("id_us"));
                 user.setFirstname(resultSet.getString("first_name"));
                 user.setLastname(resultSet.getString("last_name"));
@@ -104,11 +110,20 @@ public class UserDaoImpl implements UserDao {
                 user.setPhone(resultSet.getString("phone"));
                 user.setBalance(resultSet.getInt("balance"));
                 user.setEmail(resultSet.getString("email"));
-                user.setRole(resultSet.getString("ro.name"));
+                roleId=resultSet.getInt("fk_role");
+            }
+            if(Objects.nonNull(roleId)){
+                statement = con.preparedStatement(GET_ROLE);
+                statement.setInt(1,roleId);
+                ResultSet result=statement.executeQuery();
+                if (result.next()) {
+                    user.setRole(result.getString("name"));
+                }
                 return user;
             }
+
         } catch (SQLException e) {
-            log.error("Cannot get User by login" + login, e);
+            log.error("Cannot get User by login =" + login, e);
 
         } finally {
             try {
