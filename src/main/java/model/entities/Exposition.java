@@ -1,8 +1,8 @@
 package model.entities;
 
 import java.io.Serializable;
-import java.time.format.DateTimeFormatter;
-import java.sql.Date;
+import java.util.Date;
+
 
 public class Exposition implements Serializable {
     private Integer id;
@@ -11,19 +11,58 @@ public class Exposition implements Serializable {
     private String description;
     private String theme;
     private Integer price;
-    private Integer hallId;
+    private String hallName;
+    private String hallCity;
+    private String hallAddress;
+    private Integer ticketsAvailable;
 
-    public Exposition() {
-    }
+    public Exposition() { }
 
-    public Exposition(Integer id, Date dateStart, Date dateEnd, String description, String theme, Integer price, Integer hallId) {
+
+    public Exposition(Integer id, Date dateStart, Date dateEnd, String description, String theme, Integer price,
+                      String hallName, String hallCity, String hallAddress, Integer ticketsAvailable) {
         this.id = id;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.description = description;
         this.theme = theme;
         this.price = price;
-        this.hallId = hallId;
+        this.hallName = hallName;
+        this.hallCity = hallCity;
+        this.hallAddress = hallAddress;
+        this.ticketsAvailable = ticketsAvailable;
+    }
+
+    public String getHallName() {
+        return hallName;
+    }
+
+    public void setHallName(String hallName) {
+        this.hallName = hallName;
+    }
+
+    public String getHallCity() {
+        return hallCity;
+    }
+
+    public void setHallCity(String hallCity) {
+        this.hallCity = hallCity;
+    }
+
+    public String getHallAddress() {
+        return hallAddress;
+    }
+
+    public void setHallAddress(String hallAddress) {
+        this.hallAddress = hallAddress;
+    }
+
+    public Integer getTicketsAvailable() {
+        return ticketsAvailable;
+    }
+
+    public void setTicketsAvailable(Integer ticketsAvailable) {
+        this.ticketsAvailable = ticketsAvailable;
     }
 
     public Integer getId() {
@@ -74,19 +113,13 @@ public class Exposition implements Serializable {
         this.price = price;
     }
 
-    public Integer getHallId() {
-        return hallId;
-    }
 
-    public void setHallId(Integer hallId) {
-        this.hallId = hallId;
-    }
 
     @Override
     public int hashCode() {
         int hash = 31;
-        hash += this.id.hashCode() + this.dateStart.hashCode() + this.dateEnd.hashCode()
-                + this.description.hashCode() + this.theme.hashCode() + this.hallId.hashCode();
+        hash += this.dateStart.hashCode() + this.dateEnd.hashCode()
+                + this.description.hashCode() + this.theme.hashCode();
         return hash;
     }
 
@@ -104,7 +137,7 @@ public class Exposition implements Serializable {
         Exposition other = (Exposition) object;
         return ((this.theme.equals(other.getTheme())) && (this.description.equals(other.getDescription())) &&
                 (this.dateEnd.equals(other.getDateEnd())) && (this.dateStart.equals(other.getDateStart())) &&
-                (this.hallId.equals(other.getHallId())) && (this.price.equals(other.getPrice())));
+                (this.hallName.equals(other.getHallName())) && (this.price.equals(other.getPrice())));
     }
 
     @Override
@@ -116,7 +149,10 @@ public class Exposition implements Serializable {
                 ", description='" + description + '\'' +
                 ", theme='" + theme + '\'' +
                 ", price=" + price +
-                ", hallId=" + hallId +
+                ", hallName='" + hallName + '\'' +
+                ", hallCity='" + hallCity + '\'' +
+                ", hallAddress='" + hallAddress + '\'' +
+                ", ticketsAvailable=" + ticketsAvailable +
                 '}';
     }
 }

@@ -4,10 +4,21 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Payment implements Serializable {
-    private int paymentId;
-    private int userId;
-    private int ticketId;
+    private Integer paymentId;
+    private Integer userId;
     private Date date;
+    private Ticket ticket;
+    private Integer amount;
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+
 
     public Payment() {
     }
@@ -20,35 +31,37 @@ public class Payment implements Serializable {
         this.date = date;
     }
 
-    public int getPaymentId() {
+    public Integer getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(int paymentId) {
+    public void setPaymentId(Integer paymentId) {
         this.paymentId = paymentId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public int getTicketId() {
-        return ticketId;
+    public Ticket getTicket() {
+        return ticket;
     }
 
-    public void setTicketId(int ticketId) {
-        this.ticketId = ticketId;
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 
-    public Payment(int paymentId, int userId, int ticketId, Date date) {
+
+    public Payment(Integer paymentId, Integer userId, Date date, Ticket ticket, Integer amount) {
         this.paymentId = paymentId;
         this.userId = userId;
-        this.ticketId = ticketId;
         this.date = date;
+        this.ticket = ticket;
+        this.amount = amount;
     }
 
     @Override
@@ -60,15 +73,15 @@ public class Payment implements Serializable {
 
         if (getPaymentId() != payment.getPaymentId()) return false;
         if (getUserId() != payment.getUserId()) return false;
-        if (getTicketId() != payment.getTicketId()) return false;
+        if (ticket.hashCode() != payment.ticket.hashCode()) return false;
         return getDate().equals(payment.getDate());
     }
 
     @Override
     public int hashCode() {
-        int result = getPaymentId();
+        Integer result = getPaymentId();
         result = 31 * result + getUserId();
-        result = 31 * result + getTicketId();
+        result = 31 * result + ticket.hashCode();
         result = 31 * result + getDate().hashCode();
         return result;
     }
@@ -78,8 +91,9 @@ public class Payment implements Serializable {
         return "Payment{" +
                 "paymentId=" + paymentId +
                 ", userId=" + userId +
-                ", ticketId=" + ticketId +
                 ", date=" + date +
+                ", ticket=" + ticket +
+                ", amount=" + amount +
                 '}';
     }
 }

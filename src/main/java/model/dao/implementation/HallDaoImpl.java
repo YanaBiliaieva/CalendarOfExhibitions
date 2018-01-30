@@ -10,40 +10,77 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class HallDaoImpl implements HallDao {
     private static Logger log = Logger.getLogger(HallDaoImpl.class);
     private static final String GET_BY_ID = "SELECT * FROM halls WHERE id = ?";
-    private static final String CREATE_HALL = "INSERT INTO halls(name, address) VALUES (?,?)";
+
     private static final String DELETE_HALL = "DELETE FROM halls WHERE id=?";
     private static final String UPDATE_HALL = "UPDATE halls SET name=?,address=? WHERE id=?";
-    private static final String GET_ALL_HALLS = "SELECT * FROM halls";
+
+    private static final String GET_ALL_HALLS = "SELECT id_ha, name FROM halls";
+    private static final String CREATE_HALL = "INSERT INTO halls(name, address, fk_id_ci) VALUES (?,?,?)";
+    private static final String GET_BY_NAME = "SELECT id_ha FROM halls WHERE name = ?";
 
     public HallDaoImpl() {
     }
 
     @Override
-    public void createHall(String name, String address) {
+    public boolean getByName(String name) {
         ConnectionWrapper con = null;
         try {
             con = TransactionManager.getConnection();
-            PreparedStatement statement = con.preparedStatement(CREATE_HALL);
+            PreparedStatement statement = con.preparedStatement(GET_BY_NAME);
             statement.setString(1, name);
-            statement.setString(2, address);
-            statement.executeQuery();
-
+            ResultSet resultSet = statement.executeQuery();
+            Integer idHall = null;
+            while (resultSet.next()) {
+                idHall = resultSet.getInt("id_ha");
+            }
+            if (Objects.nonNull(idHall)) {
+                return true;
+            }
         } catch (SQLException e) {
-            log.error("Cannot create Hall with name " + name, e);
+            log.error("Cannot get Hall by name " + name, e);
         } finally {
             try {
-                con.close();
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException e) {
                 log.error("Cannot close connection", e);
             }
         }
+        return false;
+    }
+
+    @Override
+    public boolean createHall(Hall hall,Integer cityId) {
+        ConnectionWrapper con = null;
+
+        try {
+            con = TransactionManager.getConnection();
+            PreparedStatement statement = con.preparedStatement(CREATE_HALL);
+            statement.setString(1, hall.getName());
+            statement.setString(2, hall.getAddress());
+            statement.setInt(3,cityId);
+            statement.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            log.error("Cannot create Hall with name " + hall.getName(), e);
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                log.error("Cannot close connection", e);
+            }
+        }
+        return false;
     }
 
     @Override
@@ -76,36 +113,30 @@ public class HallDaoImpl implements HallDao {
     @Override
     public List<Hall> getAllHalls() {
         ConnectionWrapper con = null;
-        ResultSet resultSet = null;
-        Map<Integer, Hall> hallById = null;
+        List<Hall> halls = new ArrayList<>();
         try {
             con = TransactionManager.getConnection();
             PreparedStatement statement = con.preparedStatement(GET_ALL_HALLS);
-            hallById = new HashMap<>();
-            resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
                 Hall hall = new Hall();
-                hall.setId(id);
+                hall.setId(resultSet.getInt("id_ha"));
                 hall.setName(resultSet.getString("name"));
-                hall.setAddress(resultSet.getString("address"));
-                hallById.put(id, hall);
+                halls.add(hall);
             }
+            if (!halls.isEmpty()) return halls;
         } catch (SQLException e) {
             log.error("Can't find halls", e);
         } finally {
             try {
-                resultSet.close();
-            } catch (SQLException e) {
-                log.error("Can't close result set", e);
-            }
-            try {
-                con.close();
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException e) {
                 log.error("Can't close connection", e);
             }
         }
-        return new ArrayList<>(hallById.values());
+        return null;
     }
 
     @Override
@@ -148,4 +179,6 @@ public class HallDaoImpl implements HallDao {
             }
         }
     }
+
+
 }

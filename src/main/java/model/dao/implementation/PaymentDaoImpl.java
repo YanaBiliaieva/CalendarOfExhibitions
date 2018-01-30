@@ -1,6 +1,7 @@
 package model.dao.implementation;
 
 import model.dao.PaymentDao;
+import model.entities.Exposition;
 import model.entities.Payment;
 import model.entities.Ticket;
 import org.apache.log4j.Logger;
@@ -10,36 +11,90 @@ import transactions.TransactionManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PaymentDaoImpl implements PaymentDao {
     private static Logger log = Logger.getLogger(HallDaoImpl.class);
     private static final String GET_BY_ID = "SELECT * FROM payments WHERE id_pa = ?";
-    private static final String CREATE_PAYMENT = "INSERT INTO payments(fk_id_ti, fk_id_us) VALUES (?,?)";
+    private static final String CREATE_PAYMENT = "INSERT INTO payments(fk_id_ti, fk_id_us, amount) VALUES (?,?,?)";
     private static final String DELETE_PAYMENT = "DELETE FROM payments WHERE id_pa=?";
     private static final String UPDATE_PAYMENT = "UPDATE payments SET fk_id_ti=?,fk_id_us=? WHERE id_pa=?";
-    private static final String GET_ALL_TICKETS_BY_USER =
-            "SELECT * FROM tickets t LEFT JOIN payments p ON (t.id_ti=p.fk_id_ti) WHERE p.fk_id_us=?";
+    private static final String GET_ALL_TICKETS_BY_USER ="SELECT id_pa, date, amount, fk_id_us, t.id_ti,t.number, " +
+            "e.id_ex,e.theme, e.price,e.date_start,e.date_end FROM payments p RIGHT JOIN tickets t " +
+            "ON (p.fk_id_ti=t.id_ti)LEFT JOIN expositions e ON (t.fk_id_ex= e.id_ex) WHERE p.fk_id_us=?";
     private static final String GET_ALL_PAYMENTS = "SELECT * FROM payments";
 
     public PaymentDaoImpl() {
     }
-
     @Override
-    public void createPayment(int ticket, int user) {
+    public List<Payment> getUserPayments(Integer userId) {
+        ConnectionWrapper con = null;
+        ResultSet resultSet = null;
+        List<Payment> payments = new ArrayList<>();
+        try {
+            con = TransactionManager.getConnection();
+            PreparedStatement statement = con.preparedStatement(GET_ALL_TICKETS_BY_USER);
+            statement.setInt(1, userId);
+            resultSet = statement.executeQuery();
+            if(resultSet!=null){
+                while (resultSet.next()) {
+                    Payment payment=new Payment();
+                    payment.setPaymentId(resultSet.getInt("id_pa"));
+                    payment.setDate(resultSet.getDate("date"));
+                    payment.setUserId(resultSet.getInt("fk_id_us"));
+                    payment.setAmount(resultSet.getInt("amount"));
+                    Ticket ticket=new Ticket();
+                    ticket.setTicketId(resultSet.getInt("t.id_ti"));
+                    ticket.setNumber(resultSet.getInt("t.number"));
+                    Exposition exposition=new Exposition();
+                    exposition.setId(resultSet.getInt("e.id_ex"));
+                    exposition.setTheme(resultSet.getString("e.theme"));
+                    exposition.setPrice(resultSet.getInt("e.price"));
+                    exposition.setDateStart(resultSet.getDate("e.date_start"));
+                    exposition.setDateEnd(resultSet.getDate("e.date_end"));
+                    ticket.setExposition(exposition);
+                    payment.setTicket(ticket);
+                    payments.add(payment);
+                }
+            }
+
+        } catch (SQLException e) {
+            log.error("Can't find Payments for User Id " + userId, e);
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                log.error("Can't close connection", e);
+            }
+        }
+        return payments;
+    }
+    @Override
+    public void createPayment(List<Ticket> tickets, Integer userId, Integer price) {
         ConnectionWrapper con = null;
         try {
             con = TransactionManager.getConnection();
-            PreparedStatement statement = con.preparedStatement(CREATE_PAYMENT);
-            statement.setInt(1, ticket);
-            statement.setInt(2, user);
-            statement.executeQuery();
+            log.info("Tickets "+tickets.toString());
+            for (Ticket ticket : tickets) {
+                PreparedStatement statement = con.preparedStatement(CREATE_PAYMENT);
+                statement.setInt(1, ticket.getTicketId());
+                statement.setInt(2, userId);
+                statement.setInt(3,price);
+                statement.executeUpdate();
+            }
+
         } catch (SQLException e) {
-            log.error("Cannot create Payment with " + ticket+" and user "+user, e);
+            log.error("Cannot create Payment for user "+userId+e);
         } finally {
             try {
-                con.close();
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException e) {
                 log.error("Cannot close connection", e);
             }
@@ -56,8 +111,8 @@ public class PaymentDaoImpl implements PaymentDao {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Payment payment = new Payment();
+
                 payment.setUserId(resultSet.getInt("fk_id_us"));
-                payment.setTicketId(resultSet.getInt("fk_id_ti"));
                 payment.setDate(resultSet.getDate("date"));
                 payment.setPaymentId(id);
                 return payment;
@@ -74,42 +129,7 @@ public class PaymentDaoImpl implements PaymentDao {
         return null;
     }
 
-    @Override
-    public Map<Ticket, Date> getTicketsByUserId(int userId) {
-        ConnectionWrapper con = null;
-        ResultSet resultSet = null;
-        Map<Ticket, Date> ticketDateMapById = null;
-        try {
-            con = TransactionManager.getConnection();
-            PreparedStatement statement = con.preparedStatement(GET_ALL_TICKETS_BY_USER);
-            statement.setInt(1, userId);
-            ticketDateMapById = new HashMap<>();
-            Date date = null;
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id_ti");
-                Ticket ticket = new Ticket();
-                ticket.setTicketId(id);
-                ticket.setExpositionId(resultSet.getInt("fk_id_ex"));
-                date = (resultSet.getDate("date"));
-                ticketDateMapById.put(ticket, date);
-            }
-        } catch (SQLException e) {
-            log.error("Can't find Tickets for User Id " + userId, e);
-        } finally {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                log.error("Can't close result set", e);
-            }
-            try {
-                con.close();
-            } catch (SQLException e) {
-                log.error("Can't close connection", e);
-            }
-        }
-        return ticketDateMapById;
-    }
+
 
     @Override
     public List<Payment> getAllPayments() {
@@ -126,7 +146,7 @@ public class PaymentDaoImpl implements PaymentDao {
                 Payment payment = new Payment();
                 payment.setPaymentId(id);
                 payment.setUserId(resultSet.getInt("fk_id_us"));
-                payment.setTicketId(resultSet.getInt("fk_id_ti"));
+                //payment.setTicketId(resultSet.getInt("fk_id_ti"));
                 allPayments.put(id, payment);
             }
         } catch (SQLException e) {
@@ -153,7 +173,7 @@ public class PaymentDaoImpl implements PaymentDao {
         try {
             con = TransactionManager.getConnection();
             PreparedStatement statement = con.preparedStatement(UPDATE_PAYMENT);
-            statement.setInt(1, payment.getTicketId());
+            //statement.setInt(1, payment.getTicketId());
             statement.setInt(2, payment.getUserId());
             statement.setInt(3, payment.getPaymentId());
             statement.executeQuery();

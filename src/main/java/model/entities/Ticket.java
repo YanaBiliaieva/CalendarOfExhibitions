@@ -1,12 +1,12 @@
 package model.entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Ticket implements Serializable {
     private int ticketId;
     private int number;
-    private int expositionId;
-
+    private Exposition exposition;
     public int getTicketId() {
         return ticketId;
     }
@@ -23,12 +23,12 @@ public class Ticket implements Serializable {
         this.number = number;
     }
 
-    public int getExpositionId() {
-        return expositionId;
+    public Exposition getExposition() {
+        return exposition;
     }
 
-    public void setExpositionId(int expositionId) {
-        this.expositionId = expositionId;
+    public void setExposition(Exposition exposition) {
+        this.exposition = exposition;
     }
 
     @Override
@@ -40,14 +40,14 @@ public class Ticket implements Serializable {
 
         if (getTicketId() != ticket.getTicketId()) return false;
         if (getNumber() != ticket.getNumber()) return false;
-        return getExpositionId() == ticket.getExpositionId();
+        return Objects.equals(exposition.getId(), ticket.getExposition().getId());
     }
 
     @Override
     public int hashCode() {
         int result = getTicketId();
         result = 31 * result + getNumber();
-        result = 31 * result + getExpositionId();
+        result = 31 * result + exposition.getId();
         return result;
     }
 
@@ -56,7 +56,7 @@ public class Ticket implements Serializable {
         return "Ticket{" +
                 "ticketId=" + ticketId +
                 ", number=" + number +
-                ", expositionId=" + expositionId +
+                ", expositionId=" + exposition.getId() +
                 '}';
     }
 }

@@ -5,9 +5,9 @@ import model.entities.User;
 import java.util.List;
 
 public interface UserDao {
-    void createUser(String firstname, String lastname, String login, String password, int phone, int balance, String email);
+    void createUser(User user);
 
-    void createAdmin(String firstname, String lastname, String login, String password, int phone, int balance, String email);
+    void createAdmin(User user);
 
     User getByLogin(String login);
 
@@ -16,4 +16,6 @@ public interface UserDao {
     void update(User user);
 
     void delete(int userId);
+
+    boolean findLogin(String login);
 }

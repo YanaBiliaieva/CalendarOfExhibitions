@@ -5,7 +5,7 @@ import model.entities.Hall;
 import java.util.List;
 
 public interface HallDao {
-    void createHall(String name, String address);
+    boolean createHall(Hall hall, Integer cityId);
 
     Hall getById(int id);
 
@@ -14,4 +14,6 @@ public interface HallDao {
     void update(Hall hall);
 
     void delete(int id);
+
+    boolean getByName(String name);
 }

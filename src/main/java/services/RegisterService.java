@@ -1,11 +1,11 @@
 package services;
 
-import model.dao.implementation.UserDaoImpl;
-import model.dao.DaoFactory;
-import model.entities.Client;
 import exception.DAOException;
 import exception.RegistrationException;
 import exception.TransactionException;
+import model.dao.DaoFactory;
+import model.dao.implementation.UserDaoImpl;
+import model.entities.Client;
 import transactions.TransactionManager;
 
 import java.sql.SQLException;

@@ -20,4 +20,7 @@ public class DaoFactory {
     public static TicketsDaoImpl getTicketsDaoImpl(){
         return new TicketsDaoImpl();
     }
+    public static CityDaoImpl getCityDaoImpl(){
+        return new CityDaoImpl();
+    }
 }

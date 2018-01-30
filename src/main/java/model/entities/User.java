@@ -11,14 +11,15 @@ public class User implements Serializable {
     private String lastname;
     private String login;
     private String email;
-    private Integer phone;
+    private String phone;
     private Integer balance;
     private String role;
 
     public User() {
     }
 
-    public User(Integer userId, String firstname, String password, String lastname, String login, String email, Integer phone, Integer balance, String role) {
+    public User(Integer userId, String firstname, String password, String lastname, String login, String email,
+                String phone, Integer balance, String role) {
         this.userId = userId;
         this.firstname = firstname;
         this.password = password;
@@ -78,11 +79,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Integer getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

@@ -2,17 +2,18 @@ package model.dao;
 
 import model.entities.Exposition;
 
-import java.sql.Date;
 import java.util.List;
 
 public interface ExpositionDao {
-    void createExposition(String theme, Date start, Date end, String description, int fk_id_ha, int price);
+    boolean createExpositionWithTickets(Exposition exposition, Integer hallId);
 
-    Exposition getById(int id);
+    Exposition getById(Integer id);
 
-    List<List<String>> getAllExpositions();
+    List<Exposition> getAllExpositions();
 
     void update(Exposition exposition);
 
-    void delete(int id);
+    void delete(Integer id);
+
+    Integer getNumberOfTickets(Integer expositionId);
 }

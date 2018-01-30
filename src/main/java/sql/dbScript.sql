@@ -17,7 +17,7 @@ CREATE TABLE `exhibcalendar`.`users` (
   `last_name` VARCHAR(110) NOT NULL,
   `login` VARCHAR(100) NOT NULL UNIQUE,
   `password` VARCHAR(50) NOT NULL,
-  `phone` INTEGER(11) NOT NULL DEFAULT 1234567890,
+  `phone` VARCHAR(12) NOT NULL ,
   `balance` INTEGER(10) DEFAULT 0,
   `fk_role` INT(10) DEFAULT 1,
   `email` VARCHAR(255) NOT NULL);
@@ -45,7 +45,8 @@ CREATE TABLE `exhibcalendar`.`expositions` (
   `date_end` DATE,
   `description` VARCHAR(255) NOT NULL,
   `fk_id_ha` INTEGER NOT NULL,
-  `price` INTEGER NOT NULL );
+  `price` INTEGER NOT NULL ,
+  `tickets` INT DEFAULT 0);
 
 ALTER TABLE `exhibcalendar`.`expositions` ADD FOREIGN KEY `expositions`(`fk_id_ha`) REFERENCES `halls`(`id_ha`);
 
@@ -55,6 +56,7 @@ CREATE TABLE `exhibcalendar`.`payments` (
   `id_pa` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
   `fk_id_ti` INTEGER NOT NULL UNIQUE ,
   `fk_id_us` INTEGER NOT NULL,
+  `amount` INTEGER NOT NULL DEFAULT 0,
   `date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP );
 
 ALTER TABLE `exhibcalendar`.`payments` ADD FOREIGN KEY `payments`(`fk_id_us`) REFERENCES `users`(`id_us`);
@@ -63,7 +65,7 @@ DROP TABLE IF EXISTS `exhibcalendar`.`tickets`;
 
 CREATE TABLE `exhibcalendar`.`tickets` (
   `id_ti` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
-  `number` INTEGER UNIQUE NOT NULL DEFAULT 0,
+  `number` VARCHAR(244) UNIQUE NOT NULL ,
   `fk_id_ex` INTEGER NOT NULL );
 
 ALTER TABLE `exhibcalendar`.`payments` ADD FOREIGN KEY (`fk_id_ti`) REFERENCES `tickets`(`id_ti`);

@@ -3,16 +3,14 @@ package model.dao;
 import model.entities.Payment;
 import model.entities.Ticket;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public interface PaymentDao {
-    void createPayment(int ticket, int user);
+    void createPayment(List<Ticket> tickets, Integer user, Integer price);
 
     Payment getById(int id);
 
-    Map<Ticket, Date> getTicketsByUserId(int userId);
+    List<Payment> getUserPayments(Integer userId);
 
     List<Payment> getAllPayments();
 

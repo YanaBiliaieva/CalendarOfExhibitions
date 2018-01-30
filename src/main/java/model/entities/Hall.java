@@ -6,6 +6,19 @@ public class Hall implements Serializable {
     private Integer id;
     private String name;
     private String address;
+    private String city;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public int getId() {
         return id;
@@ -29,6 +42,16 @@ public class Hall implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Hall() {
+    }
+
+    public Hall(Integer id, String name, String address, String city) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.city = city;
     }
 
     @Override
@@ -60,6 +83,7 @@ public class Hall implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
                 '}';
     }
 }
