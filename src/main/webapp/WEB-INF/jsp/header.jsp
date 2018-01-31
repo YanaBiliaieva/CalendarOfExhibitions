@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
 <div class="row">
     <div class="column side"></div>
 <fmt:setLocale value="${language}"/>
@@ -22,6 +21,11 @@
                     <fmt:message key="logout" />
                 </button>
             </form>
+            <form action="order" method="get">
+                <button type="submit">
+                    <fmt:message key="your_orders" />
+                </button>
+            </form>
         </c:when>
         <c:when test="${sessionScope.user.role eq 'ADMIN'}">
             <fmt:message key="hello" />, <c:out value="${sessionScope.user.firstname}"/>
@@ -33,6 +37,11 @@
             <form action="logout" method="get">
                 <button type="submit">
                     <fmt:message key="logout" />
+                </button>
+            </form>
+            <form action="cabinet" method="get">
+                <button type="submit">
+                    <fmt:message key="your_orders" />
                 </button>
             </form>
         </c:when>

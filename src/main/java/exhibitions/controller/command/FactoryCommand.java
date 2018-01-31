@@ -24,7 +24,7 @@ public class FactoryCommand {
     public static final String EXHIBITIONS = "/exhibitions";
     public static final String ERROR = "/error";
     public static final String CREATE_EXHIBITION = "/createex";
-    public static final String DEFAULT ="/" ;
+    public static final String CABINET ="/cabinet" ;
     private Map<String, Object> commandMap = new HashMap<>();
 
     private FactoryCommand() {
@@ -44,6 +44,7 @@ public class FactoryCommand {
         commandMap.put(CREATE_EXHIBITION,new CreateExhibitionCommand());
         commandMap.put(HALLS, new HallsCommand());
         commandMap.put(ADD_CITY, new CityCommand());
+        commandMap.put(CABINET, new CabinetCommand());
     }
 
     public static FactoryCommand getInstance() {

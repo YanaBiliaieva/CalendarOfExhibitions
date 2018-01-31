@@ -21,6 +21,7 @@ public class SecurityConfiguration {
         grant.put(FactoryCommand.ORDER,"AUTH");
         grant.put(FactoryCommand.TICKETS,"AUTH");
         grant.put(FactoryCommand.LOGOUT,"AUTH");
+        grant.put(FactoryCommand.CABINET,"AUTH");
 
         grant.put(FactoryCommand.HALLS,"ADMIN");
         grant.put(FactoryCommand.ADMIN_PANEL,"ADMIN");
