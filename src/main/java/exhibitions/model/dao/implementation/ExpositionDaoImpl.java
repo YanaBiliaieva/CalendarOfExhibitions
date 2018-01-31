@@ -2,8 +2,8 @@ package exhibitions.model.dao.implementation;
 
 import exhibitions.model.dao.ExpositionDao;
 import exhibitions.model.entities.Exposition;
-import exhibitions.transactions.ConnectionWrapper;
-import exhibitions.transactions.TransactionManager;
+import exhibitions.model.transactions.ConnectionWrapper;
+import exhibitions.model.transactions.TransactionManager;
 import org.apache.log4j.Logger;
 
 import java.sql.Date;

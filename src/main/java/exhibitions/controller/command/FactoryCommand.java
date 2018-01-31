@@ -25,7 +25,7 @@ public class FactoryCommand {
     public static final String ERROR = "/error";
     public static final String CREATE_EXHIBITION = "/createex";
     public static final String CABINET ="/cabinet" ;
-    private Map<String, Object> commandMap = new HashMap<>();
+    private Map<String, Command> commandMap = new HashMap<>();
 
     private FactoryCommand() {
         logger.info("In FactoryCommand constructor");
@@ -51,7 +51,7 @@ public class FactoryCommand {
         return factoryCommand;
     }
 
-    public Object getCommand(String command) {
+    public Command getCommand(String command) {
         return commandMap.get(command);
     }
 

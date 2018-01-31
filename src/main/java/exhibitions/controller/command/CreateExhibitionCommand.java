@@ -4,7 +4,7 @@ import exhibitions.controller.ConfigurationManager;
 import exhibitions.model.entities.Exposition;
 import exhibitions.model.entities.Hall;
 import org.apache.log4j.Logger;
-import exhibitions.services.ExhibitionsService;
+import exhibitions.model.services.ExhibitionsService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class CreateExhibitionCommand implements Command {
 
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getMethod().equals("GET")) {
             logger.info("in Create Exhibition Command execute GET!");
             List<Hall> halls = exhibitionsService.getAllHalls();

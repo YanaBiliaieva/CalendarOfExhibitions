@@ -4,8 +4,8 @@ import exhibitions.controller.ConfigurationManager;
 import exhibitions.model.entities.City;
 import exhibitions.model.entities.Hall;
 import org.apache.log4j.Logger;
-import exhibitions.services.CityService;
-import exhibitions.services.HallService;
+import exhibitions.model.services.CityService;
+import exhibitions.model.services.HallService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ public class HallsCommand implements Command {
     private CityService cityService = CityService.getCityService();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("In HallsCommand execute method");
         List<City> cities = cityService.getAllCities();
         if (request.getMethod().equals("GET")) {

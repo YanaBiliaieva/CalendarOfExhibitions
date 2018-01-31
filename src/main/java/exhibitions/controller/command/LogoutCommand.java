@@ -3,7 +3,7 @@ package exhibitions.controller.command;
 import exhibitions.controller.ConfigurationManager;
 import exhibitions.model.entities.Exposition;
 import org.apache.log4j.Logger;
-import exhibitions.services.ExhibitionsService;
+import exhibitions.model.services.ExhibitionsService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,7 @@ import java.util.List;
 public class LogoutCommand implements Command {
     private Logger logger = Logger.getLogger(LogoutCommand.class);
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response)  {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response)  {
         logger.info("In Logout Command execute");
         request.getSession().invalidate();
 

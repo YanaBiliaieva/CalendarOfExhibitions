@@ -1,4 +1,4 @@
-package exhibitions.transactions;
+package exhibitions.model.transactions;
 
 import exhibitions.exception.TransactionException;
 import org.apache.log4j.Logger;

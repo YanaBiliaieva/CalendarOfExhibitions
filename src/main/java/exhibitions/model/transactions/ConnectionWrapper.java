@@ -1,4 +1,4 @@
-package exhibitions.transactions;
+package exhibitions.model.transactions;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

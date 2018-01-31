@@ -2,7 +2,7 @@ package exhibitions.controller.command;
 
 import exhibitions.controller.ConfigurationManager;
 import org.apache.log4j.Logger;
-import exhibitions.services.CityService;
+import exhibitions.model.services.CityService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ public class CityCommand implements Command {
     private static CityService cityService = CityService.getCityService();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getMethod().equals("POST")) {
             logger.info("In CityCommand execute post");
             String cityName = request.getParameter("city");

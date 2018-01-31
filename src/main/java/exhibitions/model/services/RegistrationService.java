@@ -1,4 +1,4 @@
-package exhibitions.services;
+package exhibitions.model.services;
 
 
 import exhibitions.model.dao.DaoFactory;

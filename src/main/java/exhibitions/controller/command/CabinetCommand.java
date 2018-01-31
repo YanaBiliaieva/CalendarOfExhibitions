@@ -3,7 +3,7 @@ package exhibitions.controller.command;
 import exhibitions.controller.ConfigurationManager;
 import exhibitions.model.entities.Payment;
 import exhibitions.model.entities.User;
-import exhibitions.services.OrderService;
+import exhibitions.model.services.OrderService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -17,7 +17,7 @@ public class CabinetCommand implements Command{
     private Logger logger = Logger.getLogger(CabinetCommand.class);
     private OrderService orderService= OrderService.getOrderService();
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer userId=((User) request.getSession().getAttribute("user")).getUserId();
         if(Objects.nonNull(userId)){
             try {

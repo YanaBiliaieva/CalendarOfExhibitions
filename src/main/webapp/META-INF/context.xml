@@ -4,7 +4,7 @@
     <Resource name="jdbc/exhibcalendar" auth="Container"
               type="javax.sql.DataSource" maxActive="100"
               minIdle="30" username="root"
-              password="rout" driverClassName="com.mysql.jdbc.Driver"
+              password="root" driverClassName="com.mysql.jdbc.Driver"
               url="jdbc:mysql://localhost:3306/exhibcalendar"
               connectionProperties="useSSL=false;
                                     autoReconnect=true;

@@ -1,4 +1,4 @@
-package exhibitions.taglib;
+package exhibitions.util.taglib;
 
 
 import org.apache.log4j.Logger;

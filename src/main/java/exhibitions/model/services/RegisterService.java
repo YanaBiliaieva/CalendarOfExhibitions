@@ -1,4 +1,4 @@
-package exhibitions.services;
+package exhibitions.model.services;
 
 import exhibitions.exception.DAOException;
 import exhibitions.exception.RegistrationException;
@@ -6,7 +6,7 @@ import exhibitions.exception.TransactionException;
 import exhibitions.model.dao.DaoFactory;
 import exhibitions.model.dao.implementation.UserDaoImpl;
 import exhibitions.model.entities.Client;
-import exhibitions.transactions.TransactionManager;
+import exhibitions.model.transactions.TransactionManager;
 
 import java.sql.SQLException;
 import java.util.Objects;

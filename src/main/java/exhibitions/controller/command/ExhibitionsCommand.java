@@ -3,7 +3,7 @@ package exhibitions.controller.command;
 import exhibitions.controller.ConfigurationManager;
 import exhibitions.model.entities.Exposition;
 import org.apache.log4j.Logger;
-import exhibitions.services.ExhibitionsService;
+import exhibitions.model.services.ExhibitionsService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ public class ExhibitionsCommand implements Command {
     private Logger logger = Logger.getLogger(ExhibitionsCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("in ExhibitionsCommand execute!!!!");
         List<Exposition> exhibitions = ExhibitionsService.getExhibitions();
         if (request.getMethod().equals("GET")) {

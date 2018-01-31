@@ -1,9 +1,10 @@
+DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
   `id_ro` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(20) NOT NULL UNIQUE);
 INSERT INTO `roles` (`name`) VALUES ('USER');
 INSERT INTO `roles` (`name`) VALUES ('ADMIN');
-
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id_us` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
   `first_name` VARCHAR(100) NOT NULL,
@@ -16,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` VARCHAR(255) NOT NULL);
 
 ALTER TABLE `users` ADD FOREIGN KEY `users`(`fk_role`) REFERENCES `roles` (`id_ro`);
-
+DROP TABLE IF EXISTS `cities`;
 CREATE TABLE IF NOT EXISTS `cities` (
   `id_ci` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
   `name` VARCHAR(100) NOT NULL UNIQUE);
@@ -26,9 +27,9 @@ CREATE TABLE `exhibcalendar`.`halls` (
   `name` VARCHAR(255) NOT NULL UNIQUE,
   `fk_id_ci` INTEGER NOT NULL,
   `address` VARCHAR(50) NOT NULL);
-
+DROP TABLE IF EXISTS `halls`;
 ALTER TABLE `halls` ADD FOREIGN KEY `halls`(`fk_id_ci`) REFERENCES `cities`(`id_ci`);
-
+DROP TABLE IF EXISTS `expositions`;
 CREATE TABLE IF NOT EXISTS `expositions` (
   `id_ex` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
   `theme` VARCHAR(255) NOT NULL,
@@ -40,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `expositions` (
   `tickets` INT DEFAULT 0);
 
 ALTER TABLE `expositions` ADD FOREIGN KEY `expositions`(`fk_id_ha`) REFERENCES `halls`(`id_ha`);
-
+DROP TABLE IF EXISTS `payments`;
 CREATE TABLE IF NOT EXISTS `payments` (
   `id_pa` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
   `fk_id_ti` INTEGER NOT NULL UNIQUE ,
@@ -50,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
 
 ALTER TABLE `payments` ADD FOREIGN KEY `payments`(`fk_id_us`) REFERENCES `users`(`id_us`);
 
-
+DROP TABLE IF EXISTS `tickets`;
 CREATE TABLE IF NOT EXISTS `tickets` (
   `id_ti` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
   `number` VARCHAR(244) UNIQUE NOT NULL ,

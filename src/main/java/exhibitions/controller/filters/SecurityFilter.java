@@ -1,6 +1,6 @@
 package exhibitions.controller.filters;
 
-import exhibitions.authentification.Authentication;
+import exhibitions.controller.authentification.Authentication;
 import exhibitions.controller.SecurityConfiguration;
 import exhibitions.controller.command.FactoryCommand;
 import exhibitions.model.entities.User;

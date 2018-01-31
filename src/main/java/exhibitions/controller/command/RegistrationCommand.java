@@ -3,7 +3,7 @@ package exhibitions.controller.command;
 import exhibitions.controller.ConfigurationManager;
 import exhibitions.exception.RegistrationException;
 import org.apache.log4j.Logger;
-import exhibitions.services.RegistrationService;
+import exhibitions.model.services.RegistrationService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +16,7 @@ public class RegistrationCommand implements Command {
     private RegistrationService regService = RegistrationService.getInstance();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         if (request.getMethod().equals("GET")) {
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.registration"))

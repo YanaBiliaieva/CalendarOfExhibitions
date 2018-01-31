@@ -5,10 +5,9 @@ import exhibitions.exception.DAOException;
 import exhibitions.model.entities.Exposition;
 import exhibitions.model.entities.User;
 import org.apache.log4j.Logger;
-import exhibitions.services.ExhibitionsService;
-import exhibitions.services.LoginService;
+import exhibitions.model.services.ExhibitionsService;
+import exhibitions.model.services.LoginService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -18,11 +17,11 @@ import java.util.Objects;
 
 import static exhibitions.controller.command.FactoryCommand.ERROR;
 
-public class LoginCommand {
+public class LoginCommand implements Command {
     private Logger logger = Logger.getLogger(LoginCommand.class);
     private LoginService loginService = LoginService.getLoginService();
 
-
+    @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
         logger.info("In LoginCommand execute method");
         if (request.getMethod().equals("GET")) {

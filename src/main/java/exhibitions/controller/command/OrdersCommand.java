@@ -6,8 +6,8 @@ import exhibitions.model.entities.Payment;
 import exhibitions.model.entities.Ticket;
 import exhibitions.model.entities.User;
 import org.apache.log4j.Logger;
-import exhibitions.services.ExhibitionsService;
-import exhibitions.services.OrderService;
+import exhibitions.model.services.ExhibitionsService;
+import exhibitions.model.services.OrderService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ public class OrdersCommand implements Command {
     private Logger logger = Logger.getLogger(OrdersCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) {
         if (request.getMethod().equals("GET")) {
             Integer expositionId = Integer.valueOf(request.getParameter("expositionId"));
 

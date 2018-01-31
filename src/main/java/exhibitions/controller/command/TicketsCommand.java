@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class TicketsCommand implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response)
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         return null;
     }

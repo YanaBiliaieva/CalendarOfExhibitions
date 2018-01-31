@@ -1,4 +1,4 @@
-package exhibitions.authentification;
+package exhibitions.controller.authentification;
 
 import exhibitions.model.entities.User;
 import org.apache.log4j.Logger;

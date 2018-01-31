@@ -1,4 +1,4 @@
-package exhibitions.transactions;
+package exhibitions.model.transactions;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;

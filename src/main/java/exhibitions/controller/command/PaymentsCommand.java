@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class PaymentsCommand implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         return null;
 
     }

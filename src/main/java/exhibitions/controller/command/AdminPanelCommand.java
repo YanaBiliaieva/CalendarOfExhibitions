@@ -11,7 +11,7 @@ import java.io.IOException;
 public class AdminPanelCommand implements Command {
     private Logger logger = Logger.getLogger(AdminPanelCommand.class);
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getMethod().equals("GET")) {
             logger.info("In AdminPanelCommand execute GET");
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.admin")).forward(request, response);

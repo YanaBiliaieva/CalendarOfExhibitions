@@ -3,8 +3,8 @@ package exhibitions.model.dao.implementation;
 import exhibitions.model.entities.User;
 import exhibitions.model.dao.UserDao;
 import org.apache.log4j.Logger;
-import exhibitions.transactions.ConnectionWrapper;
-import exhibitions.transactions.TransactionManager;
+import exhibitions.model.transactions.ConnectionWrapper;
+import exhibitions.model.transactions.TransactionManager;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

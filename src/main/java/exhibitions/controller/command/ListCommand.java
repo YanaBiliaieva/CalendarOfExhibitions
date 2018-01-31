@@ -10,7 +10,7 @@ import java.io.IOException;
 public class ListCommand implements Command {
     private Logger logger = Logger.getLogger(ListCommand.class);
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("In List Command execute");
         return null;
     }

@@ -1,7 +1,7 @@
 package exhibitions.util;
-import exhibitions.transactions.ConnectionPool;
-import exhibitions.transactions.ConnectionWrapper;
-import exhibitions.transactions.TransactionManager;
+import exhibitions.model.transactions.ConnectionPool;
+import exhibitions.model.transactions.ConnectionWrapper;
+import exhibitions.model.transactions.TransactionManager;
 import org.apache.log4j.Logger;
 import org.h2.jdbcx.JdbcDataSource;
 
@@ -33,7 +33,7 @@ public class H2ConnectionManager {
         JdbcDataSource dataSource = new JdbcDataSource();
         dataSource.setUrl("jdbc:h2:mem:exhibcalendar;Mode=MYSQL;DB_CLOSE_DELAY=-1");
         dataSource.setUser("root");
-        dataSource.setPassword("rout");
+        dataSource.setPassword("root");
         return dataSource;
     }
 
