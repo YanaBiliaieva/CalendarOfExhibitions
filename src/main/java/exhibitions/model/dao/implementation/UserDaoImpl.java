@@ -22,8 +22,8 @@ public class UserDaoImpl implements UserDao {
     private static final String DELETE_USER = "DELETE FROM users WHERE id=?";
     private static final String UPDATE_USER = "UPDATE users SET first_name=?,last_name=?,login=?,email=?,password=?, " +
             "phone=?, balance=?,email=?,role=? WHERE id=?";
-    private static final String GET_ALL_USERS = "SELECT first_name, last_name, login, password, phone, balance,email,ro.name" +
-            " FROM users us LEFT JOIN role ro On us.fk_ro=ro.id_ro WHERE role =1";
+    private static final String GET_ALL_USERS = "SELECT first_name, last_name, login, password, phone, balance," +
+            "email,ro.name FROM users us LEFT JOIN role ro On us.fk_ro=ro.id_ro WHERE role =1";
     private static final String UPDATE_USER_BALANCE = "UPDATE users SET balance=? WHERE id_us=?";
     private static final String FIND_LOGIN = "SELECT login FROM users WHERE login=?";
     private static final String GET_USER_BALANCE = "SELECT balance FROM users WHERE id_us=?";

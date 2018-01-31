@@ -65,6 +65,7 @@ public class RegistrationCommand implements Command {
                     }
                 } else {
                     regService.registerUser(firstname, lastname, login, password, email, phone);
+                    request.setAttribute("registered",true);
                     request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.login"))
                             .forward(request, response);
                 }

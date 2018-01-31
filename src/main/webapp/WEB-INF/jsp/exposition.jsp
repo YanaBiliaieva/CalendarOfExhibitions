@@ -22,7 +22,7 @@
 <c:import url="/WEB-INF/jsp/header.jsp"/><br/>
 <div class="row">
     <div class="column side"></div>
-    <div class="column middle" style="background-color:#bbb;">
+    <div class="column next">
     <c:choose>
         <c:when test="${not empty exposition}">
             <h1 class="header">${exposition.theme}</h1>
@@ -71,26 +71,24 @@
         </c:otherwise>
     </c:choose>
         <div id="message">
+            <c:if test="${exposition.ticketsAvailable eq 0}">
+                <fmt:message key="no_tickets_available" />
+            </c:if>
             <c:choose>
-                <c:when test="${exposition.ticketsAvailable eq 0}">
-                    <fmt:message key="no_tickets_available" />
-                </c:when>
-                <c:otherwise>
-                    <c:when test="${not empty user} ">
+                <c:when test="${not empty sessionScope.user}">
                         <form action="order" method="get">
                             <input type="hidden" name="expositionId" value="${exposition.id}">
-
                             <button type="submit">
                                 <fmt:message key="buy" />
                             </button>
                         </form>
-                    </c:when><c:otherwise>
+                    </c:when>
+                    <c:otherwise>
                     <fmt:message key="not_logged" />
-                </c:otherwise>
                 </c:otherwise>
             </c:choose>
         </div>
-
+        <hr/>
 <form>
     <select id="language" name="language" onchange="submit()">
         <option value="en_EN" ${language == 'en_EN' ? 'selected' : ''}>English</option>

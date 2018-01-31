@@ -16,60 +16,82 @@
 <html>
 <head>
     <title><fmt:message key="order_ticket"/></title>
+    <link rel="stylesheet" href="<c:url value="/css/exhibition.css"/>" type="text/css"/>
 </head>
 <body>
-${language}
 <c:import url="/WEB-INF/jsp/header.jsp"/><br/>
-<div class="container">
-    <c:choose>
-        <c:when test="${ exposition.ticketsAvailable gt 0}">
-            <h2><fmt:message key="purchaseTicket"/></h2>
+<div class="row">
+    <div class="column side"></div>
+    <div class="column next">
+        <c:choose>
+            <c:when test="${ exposition.ticketsAvailable gt 0}">
+                <h2 class="header"><fmt:message key="purchaseTicket"/></h2>
+                <table class="exhibitionsTable">
+                    <tr>
+                        <th><fmt:message key="exposition"/>:</th>
+                        <td> ${exposition.theme}</td>
+                    </tr>
 
+                    <tr>
+                        <th><fmt:message key="date_start"/>:</th>
+                        <td> ${exposition.dateStart}</td>
+                    </tr>
 
-            <div><fmt:message key="exposition"/>:</div>
-            <div> ${exposition.theme}</div>
+                    <tr>
+                        <th><fmt:message key="date_end"/>:</th>
+                        <td> ${exposition.dateEnd}</td>
+                    </tr>
 
+                    <tr>
+                        <th><fmt:message key="price"/>:</th>
+                        <td> ${exposition.price}</td>
+                    </tr>
+                    <tr>
+                        <th><fmt:message key="balance"/>:</th>
+                        <td> ${sessionScope.user.balance}</td>
+                    </tr>
+                    <form action="order" method="post">
+                        <tr>
+                            <th><fmt:message key="tickets"/>:</th>
+                            <td>
+                                <select name="quantity">
 
-            <div><fmt:message key="date_start"/>:</div>
-            <div>${exposition.dateStart}</div>
+                                    <c:forEach var="i" begin="1" end="${exposition.ticketsAvailable}">
+                                        <option><c:out value="${i}"/></option>
+                                    </c:forEach>
+                                </select>
 
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td><input type="hidden" name="quantity" value="${quantity}">
+                                <input type="hidden" name="expositionId" value="${exposition.id}">
+                                <button type="submit"><fmt:message key="buy"/></button>
+                            </td>
+                        </tr>
 
-            <div><fmt:message key="date_end"/>:</div>
-            <div>${exposition.dateEnd}</div>
+                    </form>
+                    <fmt:message key="dear"/> ${sessionScope.user.firstname}.
+                    <fmt:message key="code_purchase"/>
 
+                </table>
+            </c:when>
+            <c:otherwise>
+                <br>
+                <div>
+                    <fmt:message key="noTicketsFound"/>
+                </div>
+            </c:otherwise>
+        </c:choose>
 
-            <div><fmt:message key="price"/>:</div>
-            <tdivd>${exposition.price}</tdivd>
-            <div><fmt:message key="balance"/></div>
-            <div>${sessionScope.user.balance}
-            </div>
-            <form action="order" method="post">
-                <div><select name="quantity">
-                    <fmt:message key="tickets"/>
-                    <c:forEach var="i" begin="1" end="${exposition.ticketsAvailable}">
-                        <option><c:out value="${i}"/></option>
-                    </c:forEach>
-                  </select></div>
-                <input type="hidden" name="quantity" value="${quantity}">
-                <input type="hidden" name="expositionId" value="${exposition.id}">
-                <button type="submit"><fmt:message key="buy"/></button>
-            </form>
-            <fmt:message key="dear"/> ${sessionScope.user.firstname}.
-            <fmt:message key="code_purchase"/>
-        </c:when>
-        <c:otherwise>
-            <br>
-            <div>
-                <fmt:message key="noTicketsFound"/>
-            </div>
-        </c:otherwise>
-    </c:choose>
+        <form>
+            <select id="language" name="language" onchange="submit()">
+                <option value="en_EN" ${language == 'en_EN' ? 'selected' : ''}>English</option>
+                <option value="ru_RU" ${language == 'ru_RU' ? 'selected' : ''}>Русский</option>
+            </select>
+        </form>
+    </div>
 </div>
-<form>
-    <select id="language" name="language" onchange="submit()">
-        <option value="en_EN" ${language == 'en_EN' ? 'selected' : ''}>English</option>
-        <option value="ru_RU" ${language == 'ru_RU' ? 'selected' : ''}>Русский</option>
-    </select>
-</form>
 </body>
 </html>

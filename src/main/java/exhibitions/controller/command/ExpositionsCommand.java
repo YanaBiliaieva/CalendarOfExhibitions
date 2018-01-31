@@ -29,6 +29,7 @@ public class ExpositionsCommand implements Command {
 
         } else if (request.getMethod().equals("POST")) {
             logger.info("in ExpositionsCommand execute POST!");
+            logger.info("request.getSession().getAttribute(user)="+request.getSession().getAttribute("user"));
             Integer expositionId;
             try {
                 expositionId = Integer.valueOf(request.getParameter("expositionId"));

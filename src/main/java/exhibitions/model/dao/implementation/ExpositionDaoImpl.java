@@ -176,7 +176,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
             logger.error("Cannot get exposition by id " + id, e);
         } finally {
             try {
-                con.close();
+                if (con != null) {
+                    con.close();
+                }
             } catch (SQLException e) {
                 logger.error("Cannot close connection", e);
             }

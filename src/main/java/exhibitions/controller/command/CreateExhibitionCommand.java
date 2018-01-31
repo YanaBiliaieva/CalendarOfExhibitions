@@ -28,8 +28,6 @@ public class CreateExhibitionCommand implements Command {
             request.setAttribute("halls", halls);
             request.getRequestDispatcher(ConfigurationManager.getProperty("path.page.createexhibition"))
                     .forward(request, response);
-
-
         } else if (request.getMethod().equals("POST")) {
             logger.info("in Create Exhibition Command  execute POST!");
             Exposition exposition = new Exposition();
@@ -63,10 +61,11 @@ public class CreateExhibitionCommand implements Command {
                         .forward(request, response);
             }
 
-        }return null;
+        }
+        return null;
     }
 
-    private Date parseDate(String date)  {
+    private Date parseDate(String date) {
         logger.info("String date to parse=" + date);
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         String dateNumbers = date.replace("-", "");
@@ -81,7 +80,7 @@ public class CreateExhibitionCommand implements Command {
         } catch (ParseException e) {
             logger.error("Cannot parse date" + date);
         }
-      return null;
+        return null;
 
     }
 }

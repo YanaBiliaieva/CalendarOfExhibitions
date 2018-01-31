@@ -79,7 +79,7 @@
     <a href="?start=${pageStart + perPage}">>></a>
     </tfoot></tbody>
 </table>
-
+        <hr/>
 <form>
     <select id="language" name="language" onchange="submit()">
         <option value="en_EN" ${language == 'en_EN' ? 'selected' : ''}>English</option>

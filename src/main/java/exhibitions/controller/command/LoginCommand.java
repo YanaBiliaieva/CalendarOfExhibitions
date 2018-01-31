@@ -50,8 +50,6 @@ public class LoginCommand {
                     if (Objects.isNull(user)) {
                         request.setAttribute("login_incorrect", true);
                         logger.debug("login_incorrect");
-
-
                         return new CommandResult(ConfigurationManager.getProperty("path.page.login"));
 
                     } else {
